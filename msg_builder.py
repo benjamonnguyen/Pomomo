@@ -7,6 +7,7 @@ ACTIVE_SESSION = 'There is an active pomodoro session.\nUse commands \'pom!stop\
 GREETINGS = ['Howdy y\'all! Let\'s do this thang!',
              'Nice to meet you! Let\'s get started!',
              'It\'s productivity o\'clock!']
+CONTACT = 'Send me an email at feedback.sum@gmail.com if you want to report a bug or make a suggestion!'
 
 
 def build_start_msg(duration, short_break, long_break, interval):
@@ -28,16 +29,19 @@ def build_edit_msg(duration, short_break, long_break, interval):
 
 
 def build_help_msg(for_command):
-    msg = '```COMMANDS:\n\n'
-    command_info = commands.INFO.values()
+    msg = '```'
+    command_info = commands.INFO
     if for_command == '':
-        for command in command_info:
+        msg += 'COMMANDS:\n\n'
+        for command in command_info.values():
             msg += f'{command[0]}\n'
-        msg += '\nFor more info on a specific command, type \'pom!help [command]\'```'
+        msg += '\nFor more info on a specific command, type \'pom!help [command]\'\n\n'\
+               + CONTACT + '```'
+
     else:
-        if for_command in command_info:
-            command = command_info(for_command)
-            msg += command[0] + '\n' + command[1] + '```'
+        if for_command in command_info.keys():
+            command = command_info.get(for_command)
+            msg += command[0] + '\n\n' + command[1] + '```'
         else:
             msg = 'Enter a valid command.'
     return msg

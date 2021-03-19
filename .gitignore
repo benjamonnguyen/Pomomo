@@ -4,9 +4,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# C extensions
-*.so
-
 # Distribution / packaging
 .Python
 build/
@@ -25,6 +22,7 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
+.idea
 
 # Environments
 .env

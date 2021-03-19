@@ -135,6 +135,7 @@ async def skip(ctx):
 
     await ctx.send(f'Skipping {session.state}.')
     await state.handle_transition(ctx, session, timer)
+    await timer.start(ctx, session)
 
 
 @client.command(pass_context=True)
@@ -180,5 +181,6 @@ async def begone(ctx):
         else:
             await ctx.send(f'Hi Elise! Looking cute today ;)')
             await ctx.guild.voice_client.disconnect()
+
 
 client.run(TOKEN)
