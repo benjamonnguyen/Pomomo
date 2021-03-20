@@ -26,7 +26,7 @@ def help_msg(for_command):
     msg = f'```{help_doc.SUMMARY}'
     command_info = help_doc.CMD_INFO
     if for_command == '':
-        msg += 'COMMANDS:\n\n'
+        msg += 'COMMANDS:\n'
         for command in command_info.values():
             msg += f'{command[0]}\n'
         msg += f'\nFor more info on a specific command, type \'{config.CMD_PREFIX}help [command]\'\n\n'\

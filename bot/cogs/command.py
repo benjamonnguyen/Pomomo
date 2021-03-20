@@ -6,8 +6,8 @@ import state
 import config
 import Timer, Session
 
-timer = Timer.Timer()
 session = Session.Session()
+timer = Timer.Timer()
 
 
 class Command(commands.Cog):
@@ -15,11 +15,11 @@ class Command(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def help(self, ctx, command=''):
         await ctx.send(msg_builder.help_msg(command))
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def start(self, ctx, duration=20, short_break=5, long_break=15, intervals=4):
         global session
         global timer
@@ -31,7 +31,6 @@ class Command(commands.Cog):
             return
 
         session = Session.Session(duration, short_break, long_break, intervals)
-        timer = Timer.Timer()
         config.pomos_completed = 0
         await session.start(ctx, timer)
 
@@ -42,7 +41,7 @@ class Command(commands.Cog):
         else:
             print(error)
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def stop(self, ctx):
         global session
         global timer
@@ -61,7 +60,7 @@ class Command(commands.Cog):
         timer.running = False
         config.voice_channel = None
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def pause(self, ctx):
         global session
         global timer
@@ -77,7 +76,7 @@ class Command(commands.Cog):
         timer.remaining = timer.end - t.time()
         await ctx.send(f'Pausing {session.state}.')
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def resume(self, ctx):
         global session
         global timer
@@ -87,14 +86,13 @@ class Command(commands.Cog):
             return
         if timer.running:
             await ctx.send('Timer is already running.')
-            await ctx.invoke(client.get_command('time'))
             return
 
         timer.end = t.time() + timer.remaining
         await ctx.send(f'Resuming {session.state}.')
         await timer.start(ctx, session)
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def restart(self, ctx):
         global session
         global timer
@@ -107,7 +105,7 @@ class Command(commands.Cog):
         await ctx.send(f'Restarting {session.state}.')
         await timer.start(ctx, session)
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def skip(self, ctx):
         global session
         global timer
@@ -123,7 +121,7 @@ class Command(commands.Cog):
         await state.handle_transition(ctx, session, timer)
         await timer.start(ctx, session)
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def time(self, ctx):
         global session
         global timer
@@ -135,7 +133,7 @@ class Command(commands.Cog):
         time_remaining = timer.calculate_time_remaining()
         await ctx.send(f'{time_remaining} remaining on {session.state}!')
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def edit(self, ctx, duration: int, short_break: int = None, long_break: int = None, intervals: int = None):
         global session
         global timer

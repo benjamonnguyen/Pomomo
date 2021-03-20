@@ -4,9 +4,9 @@ import state
 import config
 
 
-POMO_OVER_PATH = r'sounds\pomo_end.mp3'
-S_BREAK_OVER_PATH = r'sounds\break_end.mp3'
-L_BREAK_ALERT_PATH = r'sounds\long_break.mp3'
+POMO_OVER_PATH = './sounds/pomo_end.mp3'
+S_BREAK_OVER_PATH = './sounds/break_end.mp3'
+L_BREAK_ALERT_PATH = './sounds/long_break.mp3'
 FFMPEG_EXE = r'C:\ffmpeg\bin\ffmpeg.exe'
 
 
