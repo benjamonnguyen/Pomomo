@@ -1,4 +1,6 @@
-import state, msg_builder as msg
+import state
+import msg_builder
+import user_messages as u_msg
 import config
 
 
@@ -20,25 +22,23 @@ class Session:
     @classmethod
     async def valid_session_args(cls, ctx, duration, short_break, long_break, intervals) -> bool:
         if not (duration > 0 and short_break > 0 and long_break > 0 and intervals > 0):
-            await ctx.send('Must use numbers greater than 0.')
+            await ctx.send(u_msg.INV_NUM)
             return False
         return True
 
     @classmethod
     async def send_start_msg(cls, ctx):
-        start_msg = msg.build_start_msg(cls._instance.duration,
-                                        cls._instance.short_break,
-                                        cls._instance.long_break,
-                                        cls._instance.intervals)
-        await ctx.send(start_msg)
+        await ctx.send(msg_builder.start_msg(cls._instance.duration,
+                                             cls._instance.short_break,
+                                             cls._instance.long_break,
+                                             cls._instance.intervals))
 
     @classmethod
     async def send_edit_msg(cls, ctx):
-        edit_msg = msg.build_edit_msg(cls._instance.duration,
-                                        cls._instance.short_break,
-                                        cls._instance.long_break,
-                                        cls._instance.intervals)
-        await ctx.send(edit_msg)
+        await ctx.send(msg_builder.edit_msg(cls._instance.duration,
+                                            cls._instance.short_break,
+                                            cls._instance.long_break,
+                                            cls._instance.intervals))
 
     @classmethod
     async def start(cls, ctx, timer):
@@ -70,4 +70,3 @@ class Session:
 
         await cls._instance.send_edit_msg(ctx)
         await timer.start(ctx, cls._instance)
-
