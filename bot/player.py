@@ -7,7 +7,7 @@ import config
 POMO_OVER_PATH = './sounds/pomo_end.mp3'
 S_BREAK_OVER_PATH = './sounds/break_end.mp3'
 L_BREAK_ALERT_PATH = './sounds/long_break.mp3'
-FFMPEG_EXE = r'C:\ffmpeg\bin\ffmpeg.exe'
+FFMPEG_EXE = './sounds/ffmpeg/bin/ffmpeg.exe'
 
 
 def alert(session: Session):
