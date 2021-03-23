@@ -1,2 +1,0 @@
-# CONSTANTS
-CMD_PREFIX = 'pom!'
