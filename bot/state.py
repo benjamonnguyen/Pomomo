@@ -18,5 +18,5 @@ async def handle_transition(ctx, session: Session, timer: Timer):
         session.state = POMODORO
 
     timer.calculate_delay(session)
-    time_remaining = timer.calculate_time_remaining()
+    time_remaining = timer.get_time_remaining()
     await ctx.send(f'Starting {time_remaining} {session.state}.')

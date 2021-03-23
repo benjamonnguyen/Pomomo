@@ -4,10 +4,8 @@ import msg_builder
 import user_messages as u_msg
 import state
 import config
-import Timer, Session
-
-session = Session.Session()
-timer = Timer.Timer()
+import Timer
+import Session
 
 
 class Command(commands.Cog):
@@ -21,8 +19,6 @@ class Command(commands.Cog):
 
     @commands.command()
     async def start(self, ctx, duration=20, short_break=5, long_break=15, intervals=4):
-        global session
-        global timer
 
         if session.active:
             await ctx.send(u_msg.ACTIVE_SESSION)
@@ -130,7 +126,7 @@ class Command(commands.Cog):
             await ctx.send(u_msg.NO_ACTIVE_SESSION)
             return
 
-        time_remaining = timer.calculate_time_remaining()
+        time_remaining = timer.get_time_remaining()
         await ctx.send(f'{time_remaining} remaining on {session.state}!')
 
     @commands.command()

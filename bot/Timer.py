@@ -1,50 +1,49 @@
+import discord
 import Session
-import state, player
+import Settings
+import state_handler
+import player
 import time as t
 from asyncio import sleep
 
 
 class Timer:
-    _instance = None
 
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super(Timer, cls).__new__(cls)
-            cls._instance.end = 0
-            cls._instance.remaining = 0
-            cls._instance.running = False
-        return cls._instance
+    def __init__(self, duration: int):
+        self.running = False
+        self.remaining = duration * 60
+        self.end = t.time() + duration * 60
 
     @classmethod
     def calculate_delay(cls, session: Session):
-        if session.state == state.POMODORO:
+        if session.state == state_handler.POMODORO:
             cls._instance.remaining = session.duration * 60
-        elif session.state == state.SHORT_BREAK:
+        elif session.state == state_handler.SHORT_BREAK:
             cls._instance.remaining = session.short_break * 60
-        elif session.state == state.LONG_BREAK:
+        elif session.state == state_handler.LONG_BREAK:
             cls._instance.remaining = session.long_break * 60
         cls._instance.end = t.time() + cls._instance.remaining
 
     @classmethod
-    def calculate_time_remaining(cls) -> str:
-        if cls._instance.running:
+    def get_time_remaining(cls, transition=False) -> str:
+        if cls._instance.running and not transition:
             time_remaining = cls._instance.end - t.time()
         else:
             time_remaining = cls._instance.remaining
         if time_remaining < 60:
             time_string = str(int(time_remaining)) + ' second'
-            if time_remaining != 1:
+            if time_remaining != 1 and not transition:
                 time_string += 's'
         else:
             time_string = str(int(time_remaining/60)) + ' minute'
-            if time_remaining >= 120:
+            if time_remaining >= 120 and not transition:
                 time_string += 's'
         return time_string
 
     @classmethod
     async def start(cls, ctx, session: Session):
         if not session.active:
-            player.alert(session)
+            await player.alert(vc, session)
             cls._instance.calculate_delay(session)
             session.active = True
         cls._instance.running = True
@@ -52,5 +51,5 @@ class Timer:
             await sleep(cls._instance.remaining)
             if not cls._instance.running:
                 break
-            await state.handle_transition(ctx, session, cls._instance)
-            player.alert(session)
+            await state_handler.handle_transition(ctx, session, cls._instance)
+            await player.alert(vc, session)

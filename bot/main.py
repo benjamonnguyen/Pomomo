@@ -1,22 +1,34 @@
 import os
 from dotenv import load_dotenv
-from discord.ext import commands
+import discord
+from discord.ext import commands, tasks
 import config
+
+intents = discord.Intents.default()
+intents.typing = False
+intents.members = True
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-client = commands.Bot(command_prefix=config.CMD_PREFIX, help_command=None)
+bot = commands.Bot(command_prefix=config.CMD_PREFIX, help_command=None, intents=intents)
 
 if __name__ == '__main__':
-    for filename in os.listdir('./bot/cogs'):
+    for filename in os.listdir('./cogs'):
         if filename.endswith('.py'):
-            client.load_extension(f'cogs.{filename[:-3]}')
-            print(f'Loaded cogs.{filename[:-3]}\n')
+            bot.load_extension(f'cogs.{filename[:-3]}')
+            print(f'Loaded cogs.{filename[:-3]}')
 
 
-@client.event
+@bot.event
 async def on_ready():
-    print(f'{client.user} has connected to Discord!')
+    print(f'{bot.user} has connected to Discord!')
+    kill_idle_sessions.start()
 
-client.run(TOKEN)
-# TODO heroku
+
+@tasks.loop(minutes=30)
+async def kill_idle_sessions():
+    for session in config.active_sessions.values():
+        await session.kill_if_idle()
+
+
+bot.run(TOKEN)

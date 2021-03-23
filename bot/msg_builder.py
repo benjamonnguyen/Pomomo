@@ -1,24 +1,19 @@
 import help_doc
-import random
 import config
 import user_messages as u_msg
+import Settings
 
 
-def start_msg(duration, short_break, long_break, interval):
-    msg = f'{random.choice(u_msg.GREETINGS)}\n\n'\
-          f'Duration: {duration} min\n'\
-          f'Short break: {short_break} min\n'\
-          f'Long break: {long_break} min\n'\
-          f'Long break interval: {interval}'
-    return msg
+def settings_msg(settings: Settings) -> str:
+    return f'Pomodoro: {settings.duration} min\n' \
+           f'Short break: {settings.short_break} min\n' \
+           f'Long break: {settings.long_break} min\n' \
+           f'Long break interval: {settings.intervals}'
 
 
-def edit_msg(duration, short_break, long_break, interval):
-    msg = 'Starting pomodoro with new settings!\n\n'\
-          f'Duration: {duration} min\n'\
-          f'Short break: {short_break} min\n'\
-          f'Long break: {long_break} min\n'\
-          f'Long break interval: {interval}'
+def edit_msg(pomodoro, short_break, long_break, interval):
+    msg = 'Continuing pomodoro session with new settings!\n\n' +\
+          settings_msg(pomodoro, short_break, long_break, interval)
     return msg
 
 
