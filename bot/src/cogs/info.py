@@ -30,7 +30,7 @@ class Info(commands.Cog):
             await ctx.send(u_msg.NO_ACTIVE_SESSION)
             return
 
-        msg = 'Pomodoro session2 settings:\n\n' + \
+        msg = 'Pomodoro session settings:\n\n' + \
               msg_builder.settings_msg(session.settings)
         await ctx.send(msg)
 

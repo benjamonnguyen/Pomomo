@@ -7,16 +7,16 @@ START_ARGS = 'pomodoro: duration of each pomodoro in minutes\n' \
              'intervals: number of pomodoros between each long break'
 
 CMD_INFO = {'start': ['start [pomodoro] [short_break] [long_break] [intervals]',
-                      'Start pomodoro session2 with optional custom settings\n\n' + START_ARGS],
-            'pause': ['pause', 'Pause session2'],
-            'resume': ['resume', 'Resume session2'],
+                      'Start pomodoro session with optional custom settings\n\n' + START_ARGS],
+            'pause': ['pause', 'Pause session'],
+            'resume': ['resume', 'Resume session'],
             'time': ['time', 'Get time remaining'],
-            'dm': ['dm', 'Toggle subscription to get DM alerts for the server\'s session2'],
+            'dm': ['dm', 'Toggle subscription to get DM alerts for the server\'s session'],
             'restart': ['restart', 'Restart timer'],
             'skip': ['skip', 'Skip current interval and start the next pomodoro or break'],
             'edit': ['edit <duration> [short_break] [long_break] [interval]',
-                     'Continue session2 with new settings\n\n' + START_ARGS],
-            'stop': ['stop', 'End session2']
+                     'Continue session with new settings\n\n' + START_ARGS],
+            'stop': ['stop', 'End session']
             }
 
 CONTACT = 'Send me an email at feedback.sum@gmail.com if you want to report a bug or make a suggestion!'

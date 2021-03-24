@@ -37,7 +37,7 @@ class Session:
         await ctx.send(msg)
 
     async def send_edit_msg(self, ctx):
-        msg = 'Continuing pomodoro session2 with new settings!\n\n' + \
+        msg = 'Continuing pomodoro session with new settings!\n\n' + \
               msg_builder.settings_msg(self.settings)
         await ctx.send(msg)
 
