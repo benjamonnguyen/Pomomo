@@ -2,7 +2,7 @@ from discord.ext import commands
 from utils import msg_builder
 import user_messages as u_msg
 import config
-from Session import session_manager, Session
+import sessions_manager
 
 
 class Info(commands.Cog):
@@ -16,7 +16,7 @@ class Info(commands.Cog):
 
     @commands.command()
     async def time(self, ctx):
-        session = session_manager.active_sessions.get(ctx.guild.id)
+        session = sessions_manager.get_server_session(ctx)
         if not session:
             await ctx.send(u_msg.NO_ACTIVE_SESSION)
             return
@@ -25,7 +25,7 @@ class Info(commands.Cog):
 
     @commands.command()
     async def settings(self, ctx):
-        session = session_manager.active_sessions.get(ctx.guild.id)
+        session = sessions_manager.get_server_session(ctx)
         if not session:
             await ctx.send(u_msg.NO_ACTIVE_SESSION)
             return
@@ -36,7 +36,7 @@ class Info(commands.Cog):
 
     @commands.command()
     async def dm(self, ctx):
-        session: Session = session_manager.active_sessions.get(ctx.guild.id)
+        session = sessions_manager.get_server_session(ctx)
         if not session:
             await ctx.send(u_msg.NO_ACTIVE_SESSION)
             return

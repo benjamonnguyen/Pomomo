@@ -1,12 +1,7 @@
 from discord import FFmpegPCMAudio, PCMVolumeTransformer
 import Session
-import state_handler
+from configs import bot_enum
 from asyncio import sleep
-
-
-POMO_OVER_PATH = '../sounds/pomo_end.mp3'
-S_BREAK_OVER_PATH = '../sounds/break_end.mp3'
-L_BREAK_ALERT_PATH = '../sounds/long_break.mp3'
 
 
 async def alert(session: Session):
@@ -14,11 +9,11 @@ async def alert(session: Session):
     if not vc:
         return
 
-    path = POMO_OVER_PATH
+    path = bot_enum.AlertPath.POMO_END
     if session.pomos_completed % session.settings.intervals == 0:
-        path = L_BREAK_ALERT_PATH
-    elif session.state != state_handler.POMODORO:
-        path = S_BREAK_OVER_PATH
+        path = bot_enum.AlertPath.LONG_BREAK_START
+    elif session.state != bot_enum.State.POMODORO:
+        path = bot_enum.AlertPath.POMO_START
     source = PCMVolumeTransformer(FFmpegPCMAudio(path, executable='../sounds/ffmpeg.exe'),
                                   volume=0.1)
     if vc.is_playing():

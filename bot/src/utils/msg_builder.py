@@ -1,5 +1,4 @@
-import help_info
-import config
+from configs import config, help_info
 from Settings import Settings
 
 

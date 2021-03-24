@@ -1,9 +1,10 @@
 from discord.ext import commands
-from Session import Session, session_manager
+import sessions_manager
+import session_controller
+from Session import Session
 from Settings import Settings
 from utils import state_handler
-import config
-import user_messages as u_msg
+from configs import config, bot_enum, user_messages as u_msg
 import time as t
 
 
@@ -20,24 +21,25 @@ class Control(commands.Cog):
         if not ctx.author.voice:
             await ctx.send(u_msg.JOIN_CHANNEL)
             return
-        if Session.is_connected_to_vc(ctx):
+        if sessions_manager.connected_to_vc(ctx):
             await ctx.send(u_msg.ACTIVE_SESSION)
             return
         await ctx.author.voice.channel.connect()
-        session = Session(Settings(pomodoro, short_break, long_break, intervals), ctx)
+        session = Session(Settings(pomodoro, short_break, long_break, intervals))
+        session.ctx = ctx
         session.timer.running = True
-        await session.start(ctx)
+        await session_controller.start(session)
 
     @start.error
     async def handle_error(self, ctx, error):
         if isinstance(error, commands.BadArgument):
             await ctx.send(u_msg.INV_NUM)
         else:
-            print(error)
+            raise error
 
     @commands.command()
     async def stop(self, ctx):
-        session = await Session.get_session(ctx)
+        session = sessions_manager.get_server_session(ctx)
         if not session:
             await ctx.send(u_msg.NO_ACTIVE_SESSION)
             return
@@ -48,11 +50,11 @@ class Control(commands.Cog):
             await ctx.send(f'Great job! You completed {session.pomos_completed} pomodoros.')
         else:
             await ctx.send(f'See you again soon! 👋')
-        session_manager.active_sessions.pop(ctx.guild.id)
+        sessions_manager.active_sessions.pop(ctx.guild.id)
 
     @commands.command()
     async def pause(self, ctx):
-        session = await Session.get_session(ctx)
+        session = sessions_manager.get_server_session(ctx)
         if not session:
             await ctx.send(u_msg.NO_ACTIVE_SESSION)
             return
@@ -68,7 +70,7 @@ class Control(commands.Cog):
 
     @commands.command()
     async def resume(self, ctx):
-        session = await Session.get_session(ctx)
+        session = sessions_manager.get_server_session(ctx)
         if not session:
             await ctx.send(u_msg.NO_ACTIVE_SESSION)
             return
@@ -80,40 +82,42 @@ class Control(commands.Cog):
         timer.running = True
         timer.end = t.time() + timer.remaining
         await ctx.send(f'Resuming {session.state}.')
-        await session.resume(ctx)
+        await session_controller.resume(session)
 
     @commands.command()
     async def restart(self, ctx):
-        session = await Session.get_session(ctx)
+        session = sessions_manager.get_server_session(ctx)
         if not session:
             await ctx.send(u_msg.NO_ACTIVE_SESSION)
             return
         session.timer.calculate_delay()
         await ctx.send(f'Restarting {session.state}.')
-        await session.resume(ctx)
+        await session_controller.resume(session)
 
     @commands.command()
     async def skip(self, ctx):
-        session = await Session.get_session(ctx)
+        session = sessions_manager.get_server_session(ctx)
         if not session:
             await ctx.send(u_msg.NO_ACTIVE_SESSION)
             return
-        if session.pomos_completed > 0 and session.state == state_handler.POMODORO:
+        if session.pomos_completed > 0 and session.state == bot_enum.State.POMODORO:
             session.pomos_completed -= 1
 
         await ctx.send(f'Skipping {session.state}.')
-        await state_handler.transition_session(session, ctx)
-        await session.resume(ctx)
+        await state_handler.transition_session(session)
+        await session_controller.resume(ctx)
 
     @commands.command()
     async def edit(self, ctx, pomodoro: int, short_break: int = None, long_break: int = None, intervals: int = None):
-        session = await Session.get_session(ctx)
+        session = sessions_manager.get_server_session(ctx)
         if not session:
             await ctx.send(u_msg.NO_ACTIVE_SESSION)
             return
-        await session.edit(ctx, pomodoro, short_break, long_break, intervals)
-        await session.timer.calculate_delay()
-        await session.resume(ctx)
+        if not await Settings.is_valid(ctx, pomodoro, short_break, long_break, intervals):
+            return
+        await session_controller.edit(session, Settings(pomodoro, short_break, long_break, intervals))
+        session.timer.calculate_delay()
+        await session_controller.resume(session)
 
     @edit.error
     async def handle_error(self, ctx, error):
@@ -122,7 +126,7 @@ class Control(commands.Cog):
         elif isinstance(error, commands.BadArgument):
             await ctx.send(u_msg.INV_NUM)
         else:
-            print(error)
+            raise error
 
 
 def setup(client):

@@ -33,6 +33,6 @@ ENV/
 env.bak/
 venv.bak/
 
-# Tests and Sounds
+# Tests
 test/
-sounds/
+config.py
