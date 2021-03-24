@@ -1,6 +1,3 @@
-active_sessions = {}
-
-# CONSTANTS
 CMD_PREFIX = 'pom!'
 TIMEOUT = 14400
 PAUSE_TIMEOUT = 1800

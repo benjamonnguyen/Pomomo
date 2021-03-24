@@ -1,9 +1,9 @@
 from discord.ext import commands
-import user_messages as u_msg
-from Session import Session
+from Session import Session, session_manager
 from Settings import Settings
-import state_handler
+from utils import state_handler
 import config
+import user_messages as u_msg
 import time as t
 
 
@@ -48,7 +48,7 @@ class Control(commands.Cog):
             await ctx.send(f'Great job! You completed {session.pomos_completed} pomodoros.')
         else:
             await ctx.send(f'See you again soon! 👋')
-        config.active_sessions.pop(ctx.guild.id)
+        session_manager.active_sessions.pop(ctx.guild.id)
 
     @commands.command()
     async def pause(self, ctx):

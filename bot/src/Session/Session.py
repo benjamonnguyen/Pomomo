@@ -1,14 +1,12 @@
 import discord
-import state_handler
-import msg_builder
+from utils import msg_builder, player, state_handler
 import user_messages as u_msg
+import config
 from Settings import Settings
 from Timer import Timer
+import session_manager
 import random
-import config
 import asyncio
-from asyncio import sleep
-import player
 import time as t
 
 
@@ -31,7 +29,7 @@ class Session:
 
     @classmethod
     async def get_session(cls, ctx):
-        return config.active_sessions.get(ctx.guild.id)
+        return session_manager.active_sessions.get(ctx.guild.id)
 
     async def send_start_msg(self, ctx):
         msg = f'{random.choice(u_msg.GREETINGS)}\n\n' + \
@@ -39,7 +37,7 @@ class Session:
         await ctx.send(msg)
 
     async def send_edit_msg(self, ctx):
-        msg = 'Continuing pomodoro session with new settings!\n\n' + \
+        msg = 'Continuing pomodoro session2 with new settings!\n\n' + \
               msg_builder.settings_msg(self.settings)
         await ctx.send(msg)
 
@@ -47,7 +45,7 @@ class Session:
         self.timeout = t.time() + config.TIMEOUT
         timer_end = self.timer.end
         while True:
-            await sleep(self.timer.remaining)
+            await asyncio.sleep(self.timer.remaining)
             session = await self.get_session(ctx)
             if not (session and
                     session.timer.running and
@@ -59,7 +57,7 @@ class Session:
                 await state_handler.transition_session(self, ctx)
 
     async def start(self, ctx):
-        config.active_sessions[ctx.guild.id] = self
+        session_manager.active_sessions[ctx.guild.id] = self
         await self.send_start_msg(ctx)
         await player.alert(self)
         await self.resume(ctx)

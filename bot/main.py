@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import discord
 from discord.ext import commands, tasks
 import config
+from Session import session_manager
 
 intents = discord.Intents.default()
 intents.typing = False
@@ -13,7 +14,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix=config.CMD_PREFIX, help_command=None, intents=intents)
 
 if __name__ == '__main__':
-    for filename in os.listdir('./cogs'):
+    for filename in os.listdir('./src/cogs'):
         if filename.endswith('.py'):
             bot.load_extension(f'cogs.{filename[:-3]}')
             print(f'Loaded cogs.{filename[:-3]}')
@@ -27,7 +28,7 @@ async def on_ready():
 
 @tasks.loop(minutes=30)
 async def kill_idle_sessions():
-    for session in config.active_sessions.values():
+    for session in session_manager.active_sessions.values():
         await session.kill_if_idle()
 
 

@@ -1,8 +1,8 @@
 from discord.ext import commands
-import msg_builder
+from utils import msg_builder
 import user_messages as u_msg
 import config
-from Session import Session
+from Session import session_manager, Session
 
 
 class Info(commands.Cog):
@@ -16,7 +16,7 @@ class Info(commands.Cog):
 
     @commands.command()
     async def time(self, ctx):
-        session = config.active_sessions.get(ctx.guild.id)
+        session = session_manager.active_sessions.get(ctx.guild.id)
         if not session:
             await ctx.send(u_msg.NO_ACTIVE_SESSION)
             return
@@ -25,18 +25,18 @@ class Info(commands.Cog):
 
     @commands.command()
     async def settings(self, ctx):
-        session = config.active_sessions.get(ctx.guild.id)
+        session = session_manager.active_sessions.get(ctx.guild.id)
         if not session:
             await ctx.send(u_msg.NO_ACTIVE_SESSION)
             return
 
-        msg = 'Pomodoro session settings:\n\n' + \
+        msg = 'Pomodoro session2 settings:\n\n' + \
               msg_builder.settings_msg(session.settings)
         await ctx.send(msg)
 
     @commands.command()
     async def dm(self, ctx):
-        session: Session = config.active_sessions.get(ctx.guild.id)
+        session: Session = session_manager.active_sessions.get(ctx.guild.id)
         if not session:
             await ctx.send(u_msg.NO_ACTIVE_SESSION)
             return
@@ -49,8 +49,8 @@ class Info(commands.Cog):
         else:
             subs.add(user)
             await user.send(f'Hey {user.display_name}! '
-                      f'You are now subscribed to DM alerts for {ctx.guild.name}.\n\n'
-                      f'Use command \'{config.CMD_PREFIX}dm\' in the appropriate server to unsubscribe.')
+                            f'You are now subscribed to DM alerts for {ctx.guild.name}.\n\n'
+                            f'Use command \'{config.CMD_PREFIX}dm\' in the appropriate server to unsubscribe.')
 
 
 def setup(client):

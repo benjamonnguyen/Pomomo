@@ -1,6 +1,6 @@
-import help_doc
+import help_info
 import config
-import Settings
+from Settings import Settings
 
 
 def settings_msg(settings: Settings) -> str:
@@ -12,13 +12,13 @@ def settings_msg(settings: Settings) -> str:
 
 def help_msg(for_command):
     msg = '```'
-    command_info = help_doc.CMD_INFO
+    command_info = help_info.CMD_INFO
     if for_command == '':
-        msg += f'{help_doc.SUMMARY}COMMANDS:\n'
+        msg += f'{help_info.SUMMARY}COMMANDS:\n'
         for command in command_info.values():
             msg += f'{command[0]}\n'
         msg += f'\nFor more info on a specific command, type \'{config.CMD_PREFIX}help [command]\'\n\n'\
-               + help_doc.CONTACT + '```'
+               + help_info.CONTACT + '```'
     else:
         if for_command in command_info.keys():
             command = command_info.get(for_command)
