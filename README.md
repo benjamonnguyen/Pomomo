@@ -1,6 +1,6 @@
-# Pomomo
+## Pomomo
 Pomodoro Discord Bot
-
+__________
 Pomomo is a Discord bot that will join your voice channel and play an alert whenever your pomodoro or break is over. You'll be able to keep track of the session through the text channel Pomomo was started from or in your DMs if you're subscribed to the session.
 
 Pomomo was inspired by a need to balance productivity and socializing. Designate time to focus so everyone can get stuff done while hanging out! You can customize the duration of any of the intervals.
@@ -38,4 +38,6 @@ Pomomo was inspired by a need to balance productivity and socializing. Designate
 >**settings**\
 >Get settings for session
 
-Pomomo is pretty barebones but does what it does super well! I want to keep the bot simple and easy to use, but feel free to make any suggestions at feedback.sum@gmail.com.
+<div><br />Pomomo is pretty barebones but does what it does super well! I want to keep the bot simple and easy to use, but feel free to make any suggestions at feedback.sum@gmail.com.</div>
+
+<div><br />Attributions:<br />Icon made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a><br />Sound effects obtained from <a href="https://www.zapsplat.com/">www.zapsplat.com</a></div>

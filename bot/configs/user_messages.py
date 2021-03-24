@@ -5,8 +5,8 @@ NO_ACTIVE_SESSION = 'No active session.\n' \
 
 ACTIVE_SESSION = 'There is already an active pomodoro session on the server.\n'
 
-GREETINGS = ['Howdy y\'all! Let\'s do this thang.',
-             'Nice to meet you! Let\'s get started!',
+GREETINGS = ['Howdy howdy! Let\'s do this thang.',
+             'Hey there! Let\'s get started!',
              'It\'s productivity o\'clock!']
 
 INV_NUM = 'Must use numbers greater than 0.'
