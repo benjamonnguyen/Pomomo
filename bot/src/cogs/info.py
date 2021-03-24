@@ -30,7 +30,7 @@ class Info(commands.Cog):
             await ctx.send(u_msg.NO_ACTIVE_SESSION)
             return
 
-        msg = 'Pomodoro session settings:\n\n' + \
+        msg = 'Session settings:\n\n' + \
               msg_builder.settings_msg(session.settings)
         await ctx.send(msg)
 
@@ -49,7 +49,7 @@ class Info(commands.Cog):
         else:
             subs.add(user)
             await user.send(f'Hey {user.display_name}! '
-                            f'You are now subscribed to DM alerts for {ctx.guild.name}.\n\n'
+                            f'You are now subscribed to DM alerts for {ctx.guild.name}.\n'
                             f'Use command \'{config.CMD_PREFIX}dm\' in the appropriate server to unsubscribe.')
 
 

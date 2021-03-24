@@ -112,6 +112,8 @@ class Control(commands.Cog):
             await ctx.send(u_msg.NO_ACTIVE_SESSION)
             return
         await session.edit(ctx, pomodoro, short_break, long_break, intervals)
+        await session.timer.calculate_delay()
+        await session.resume(ctx)
 
     @edit.error
     async def handle_error(self, ctx, error):

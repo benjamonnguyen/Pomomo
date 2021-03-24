@@ -20,6 +20,8 @@ class Timer:
             delay = session.settings.short_break * 60
         elif self.parent.state == state_handler.LONG_BREAK:
             delay = session.settings.long_break * 60
+        else:
+            raise Exception('No valid session state: ' + session.state)
         self.remaining = delay
         self.end = t.time() + delay
 
