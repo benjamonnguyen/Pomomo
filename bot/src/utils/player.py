@@ -10,7 +10,7 @@ async def alert(session: Session):
         return
 
     path = bot_enum.AlertPath.POMO_END
-    if session.pomos_completed % session.settings.intervals == 0:
+    if session.stats.pomos_completed % session.settings.intervals == 0:
         path = bot_enum.AlertPath.LONG_BREAK_START
     elif session.state != bot_enum.State.POMODORO:
         path = bot_enum.AlertPath.POMO_START

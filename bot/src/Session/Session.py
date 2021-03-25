@@ -1,5 +1,6 @@
 from Settings import Settings
 from Timer import Timer
+from Stats import Stats
 from configs import bot_enum
 
 
@@ -8,7 +9,7 @@ class Session:
     def __init__(self, settings: Settings):
 
         self.state = bot_enum.State.POMODORO
-        self.pomos_completed = 0
+        self.stats = Stats()
         self.settings = settings
         self.timer = Timer(self)
         self.ctx = None

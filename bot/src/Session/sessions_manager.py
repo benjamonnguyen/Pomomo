@@ -14,10 +14,13 @@ def connected_to_vc(ctx: commands.context):
     return voice_client and voice_client.is_connected()
 
 
-def get_server_session(ctx: commands.context) -> Session:
+async def get_server_session(ctx: commands.context) -> Session:
     session = active_sessions.get(ctx.guild.id)
     if session:
         session.ctx = ctx
+    else:
+        await ctx.send(u_msg.NO_ACTIVE_SESSION_ERR)
+        return
     return session
 
 

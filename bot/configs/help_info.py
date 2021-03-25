@@ -10,13 +10,14 @@ CMD_INFO = {'start': ['start [pomodoro] [short_break] [long_break] [intervals]',
                       'Start pomodoro session with optional custom settings\n\n' + START_ARGS],
             'pause': ['pause', 'Pause session'],
             'resume': ['resume', 'Resume session'],
-            'time': ['time', 'Get time remaining'],
-            'dm': ['dm', 'Toggle subscription to get DM alerts for the server\'s pomodoro session'],
             'restart': ['restart', 'Restart timer'],
             'skip': ['skip', 'Skip current interval and start the next pomodoro or break'],
             'edit': ['edit <duration> [short_break] [long_break] [interval]',
                      'Continue session with new settings\n\n' + START_ARGS],
-            'stop': ['stop', 'End session']
+            'stop': ['stop', 'End session'],
+            'time': ['time', 'Get time remaining'],
+            'stats': ['stats', 'Get session stats'],
+            'dm': ['dm', 'Toggle subscription to get DM alerts for the server\'s pomodoro session']
             }
 
 CONTACT = 'Send me an email at feedback.sum@gmail.com if you want to report a bug or make a suggestion!'

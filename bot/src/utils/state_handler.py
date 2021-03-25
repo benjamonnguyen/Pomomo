@@ -4,8 +4,10 @@ from configs import bot_enum
 
 async def transition_session(session: Session):
     if session.state == bot_enum.State.POMODORO:
-        session.pomos_completed += 1
-        if session.pomos_completed % session.settings.intervals == 0:
+        stats = session.stats
+        stats.pomos_completed += 1
+        stats.minutes_completed += session.settings.duration
+        if stats.pomos_completed % session.settings.intervals == 0:
             session.state = bot_enum.State.LONG_BREAK
         else:
             session.state = bot_enum.State.SHORT_BREAK

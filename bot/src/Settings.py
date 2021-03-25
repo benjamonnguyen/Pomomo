@@ -15,5 +15,5 @@ class Settings:
         if duration > 0 and (not short_break or short_break > 0) \
                 and (not long_break or long_break > 0) and (not intervals or intervals > 0):
             return True
-        await ctx.send(u_msg.INV_NUM)
+        await ctx.send(u_msg.NUM_LT_ONE_ERR)
         return False

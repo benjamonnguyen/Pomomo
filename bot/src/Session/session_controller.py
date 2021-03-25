@@ -13,7 +13,7 @@ async def resume(session: Session):
     while True:
         timer_end = session.timer.end
         await sleep(session.timer.remaining)
-        session = sessions_manager.get_server_session(session.ctx)
+        session = sessions_manager.active_sessions.get(session.ctx.guild.id)
         if not (session and
                 session.timer.running and
                 timer_end == session.timer.end):
