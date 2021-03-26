@@ -7,7 +7,8 @@ async def transition_session(session: Session):
         stats = session.stats
         stats.pomos_completed += 1
         stats.minutes_completed += session.settings.duration
-        if stats.pomos_completed % session.settings.intervals == 0:
+        if stats.pomos_completed > 0 and\
+                stats.pomos_completed % session.settings.intervals == 0:
             session.state = bot_enum.State.LONG_BREAK
         else:
             session.state = bot_enum.State.SHORT_BREAK

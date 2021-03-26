@@ -1,5 +1,6 @@
 from configs import config, help_info
 from Settings import Settings
+from Stats import Stats
 
 
 def settings_msg(settings: Settings) -> str:
@@ -25,3 +26,13 @@ def help_msg(for_command):
         else:
             msg = 'Enter a valid command.'
     return msg
+
+
+def stats_msg(stats: Stats):
+    pomo_str = 'pomodoros'
+    minutes_str = 'minutes'
+    if stats.pomos_completed == 1:
+        pomo_str = 'pomodoro'
+    if stats.minutes_completed == 1:
+        minutes_str = 'minute'
+    return f'{stats.pomos_completed} {pomo_str} ({stats.minutes_completed} {minutes_str})'

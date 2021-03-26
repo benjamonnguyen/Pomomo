@@ -35,14 +35,7 @@ class Info(commands.Cog):
         if session:
             stats = session.stats
             if stats.pomos_completed > 0:
-                pomo_str = 'pomodoros'
-                minutes_str = 'minutes'
-                if stats.pomos_completed == 1:
-                    pomo_str = 'pomodoro'
-                if stats.minutes_completed == 1:
-                    minutes_str = 'minute'
-                await ctx.send(f'You\'ve completed {stats.pomos_completed} {pomo_str} '
-                               f'({stats.minutes_completed} {minutes_str}) so far. ' +
+                await ctx.send(f'You\'ve completed {msg_builder.stats_msg(stats)} so far. ' +
                                choice(u_msg.ENCOURAGEMENTS))
             else:
                 await ctx.send('You haven\'t completed any pomodoros yet.')

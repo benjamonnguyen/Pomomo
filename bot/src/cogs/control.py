@@ -3,7 +3,7 @@ import sessions_manager
 import session_controller
 from Session import Session
 from Settings import Settings
-from utils import state_handler
+from utils import state_handler, msg_builder
 from configs import config, bot_enum, user_messages as u_msg
 import time as t
 
@@ -46,7 +46,7 @@ class Control(commands.Cog):
             stats = session.stats
             if stats.pomos_completed > 0:
                 await ctx.send(f'Great job! '
-                               f'You completed {stats.pomos_completed} pomodoros ({stats.minutes_completed} minutes).')
+                               f'You completed {msg_builder.stats_msg(stats)}.')
             else:
                 await ctx.send(f'See you again soon! 👋')
             sessions_manager.active_sessions.pop(ctx.guild.id)
