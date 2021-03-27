@@ -59,7 +59,7 @@ Designate time to focus so everyone can get stuff done while hanging out! You ca
 
 ### Footnotes
 
-<div><br />Pomomo is pretty barebones but does what it does super well! 
+<div>Pomomo is pretty barebones but does what it does super well! 
 I want to make sure the bot is simple, easy to use, and lightweight, but feel free to make any suggestions at feedback.sum@gmail.com.</div>
 
 <div><br />Attributions:<br />Icon made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> 
