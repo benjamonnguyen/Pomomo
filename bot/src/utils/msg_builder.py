@@ -1,4 +1,4 @@
-from configs import config, help_info
+from bot.configs import config, help_info
 from Settings import Settings
 from Stats import Stats
 

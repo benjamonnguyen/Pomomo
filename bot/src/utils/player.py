@@ -1,6 +1,8 @@
 from discord import FFmpegPCMAudio, PCMVolumeTransformer
+from discord.ext.commands import Context
 import Session
-from configs import bot_enum
+from bot.configs import bot_enum
+from Sessions import session_manager
 from asyncio import sleep
 
 
@@ -10,7 +12,9 @@ async def alert(session: Session):
         return
 
     path = bot_enum.AlertPath.POMO_END
-    if session.stats.pomos_completed % session.settings.intervals == 0:
+    if session.state == bot_enum.State.COUNTDOWN:
+        pass
+    elif session.stats.pomos_completed % session.settings.intervals == 0:
         path = bot_enum.AlertPath.LONG_BREAK_START
     elif session.state != bot_enum.State.POMODORO:
         path = bot_enum.AlertPath.POMO_START
@@ -21,3 +25,12 @@ async def alert(session: Session):
     vc.play(source)
     while vc.is_playing():
         await sleep(1)
+
+
+async def setup_countdown(ctx: Context, audio_alert: bool):
+    if audio_alert:
+        if not session_manager.connected_to_vc(ctx):
+            await ctx.author.voice.channel.connect()
+    else:
+        if session_manager.connected_to_vc(ctx):
+            await ctx.guild.voice_client.disconnect()
