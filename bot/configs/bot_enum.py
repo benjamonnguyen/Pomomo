@@ -2,6 +2,7 @@ class State:
     POMODORO = 'pomodoro'
     SHORT_BREAK = 'short break'
     LONG_BREAK = 'long break'
+    COUNTDOWN = 'countdown'
 
 
 class AlertPath:

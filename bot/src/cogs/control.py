@@ -84,7 +84,7 @@ class Control(commands.Cog):
     async def restart(self, ctx):
         session = await session_manager.get_server_session(ctx)
         if session:
-            session.timer.calculate_delay()
+            session.timer.set_time_remaining()
             await ctx.send(f'Restarting {session.state}.')
             if session.state == bot_enum.State.COUNTDOWN:
                 await countdown.start(session)
@@ -118,7 +118,7 @@ class Control(commands.Cog):
             if not await Settings.is_valid(ctx, pomodoro, short_break, long_break, intervals):
                 return
             await session_controller.edit(session, Settings(pomodoro, short_break, long_break, intervals))
-            session.timer.calculate_delay()
+            session.timer.set_time_remaining()
             if session.state == bot_enum.State.COUNTDOWN:
                 await countdown.update_msg(session)
             await session_controller.resume(session)

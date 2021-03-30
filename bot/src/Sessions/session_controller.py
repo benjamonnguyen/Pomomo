@@ -13,8 +13,8 @@ async def resume(session: Session):
     if session.state == bot_enum.State.COUNTDOWN:
         await countdown.update_msg(session)
         return
-    session.timer.running = True
     while True:
+        session.timer.running = True
         timer_end = session.timer.end
         await sleep(session.timer.remaining)
         session = session_manager.active_sessions.get(session.ctx.guild.id)

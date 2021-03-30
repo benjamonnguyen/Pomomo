@@ -1,17 +1,19 @@
+from discord.ext.commands import Context
 from Settings import Settings
 from Timer import Timer
 from Stats import Stats
-from configs import bot_enum
 
 
 class Session:
 
-    def __init__(self, settings: Settings):
+    def __init__(self, state: str, settings: Settings, ctx: Context):
 
-        self.state = bot_enum.State.POMODORO
+        self.state = state
         self.stats = Stats()
         self.settings = settings
         self.timer = Timer(self)
-        self.ctx = None
+        self.ctx = ctx
         self.timeout = 0
         self.subscribers = set()
+
+        self.countdown_msg = None

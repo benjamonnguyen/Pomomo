@@ -2,7 +2,7 @@ from discord.ext import commands
 from utils import msg_builder
 import user_messages as u_msg
 import config
-import sessions_manager
+from Sessions import session_manager
 from random import choice
 
 
@@ -17,13 +17,13 @@ class Info(commands.Cog):
 
     @commands.command()
     async def time(self, ctx):
-        session = await sessions_manager.get_server_session(ctx)
+        session = await session_manager.get_server_session(ctx)
         if session:
             await ctx.send(f'{session.timer.time_remaining_to_str()} remaining on {session.state}!')
 
     @commands.command()
     async def settings(self, ctx):
-        session = await sessions_manager.get_server_session(ctx)
+        session = await session_manager.get_server_session(ctx)
         if session:
             msg = 'Session settings:\n\n' + \
                   msg_builder.settings_msg(session.settings)
@@ -31,7 +31,7 @@ class Info(commands.Cog):
 
     @commands.command()
     async def stats(self, ctx):
-        session = await sessions_manager.get_server_session(ctx)
+        session = await session_manager.get_server_session(ctx)
         if session:
             stats = session.stats
             if stats.pomos_completed > 0:
@@ -42,7 +42,7 @@ class Info(commands.Cog):
 
     @commands.command()
     async def dm(self, ctx):
-        session = await sessions_manager.get_server_session(ctx)
+        session = await session_manager.get_server_session(ctx)
         if session:
             user = ctx.author
             subs = session.subscribers

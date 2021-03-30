@@ -3,7 +3,7 @@ import user_messages as u_msg
 
 class Settings:
 
-    def __init__(self, duration, short_break, long_break, intervals):
+    def __init__(self, duration, short_break=None, long_break=None, intervals=None):
         self.duration = duration
         self.short_break = short_break
         self.long_break = long_break

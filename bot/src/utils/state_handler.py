@@ -1,8 +1,9 @@
-from Session import Session
+from Sessions.Session import Session
 from configs import bot_enum
 
 
 async def transition_session(session: Session):
+    session.timer.running = False
     if session.state == bot_enum.State.POMODORO:
         stats = session.stats
         stats.pomos_completed += 1
@@ -14,8 +15,7 @@ async def transition_session(session: Session):
             session.state = bot_enum.State.SHORT_BREAK
     else:
         session.state = bot_enum.State.POMODORO
-
-    session.timer.calculate_delay()
+    session.timer.set_time_remaining()
     alert = f'Starting {session.timer.time_remaining_to_str(singular=True)} {session.state}.'
     await session.ctx.send(alert)
     for sub in session.subscribers:

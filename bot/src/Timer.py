@@ -11,7 +11,7 @@ class Timer:
         self.remaining = duration
         self.end = t.time() + duration
 
-    def calculate_delay(self):
+    def set_time_remaining(self):
         session = self.parent
         if session.state == bot_enum.State.SHORT_BREAK:
             delay = session.settings.short_break * 60
@@ -26,7 +26,7 @@ class Timer:
         if self.running:  # and not singular???
             time_remaining = self.end - t.time()
         else:
-            time_remaining = self.remaining\
+            time_remaining = self.remaining
 
         if time_remaining > 59:
             minutes_str = str(int(time_remaining/60)) + ' minute'
