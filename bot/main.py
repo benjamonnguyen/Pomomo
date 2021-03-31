@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import discord
 from discord.ext import commands, tasks
 import config
-import session_manager
+from Sessions import session_manager
 
 intents = discord.Intents.default()
 intents.typing = False
@@ -30,7 +30,7 @@ async def on_ready():
 @tasks.loop(minutes=30)
 async def kill_idle_sessions():
     for session in session_manager.active_sessions.values():
-        await session.kill_if_idle()
+        await session_manager.kill_if_idle(session)
 
 
 bot.run(TOKEN)
