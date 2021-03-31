@@ -22,7 +22,6 @@ if __name__ == '__main__':
 
 @bot.event
 async def on_ready():
-    config.BOT_NAME = bot.user
     print(f'{bot.user} has connected to Discord!')
     kill_idle_sessions.start()
 

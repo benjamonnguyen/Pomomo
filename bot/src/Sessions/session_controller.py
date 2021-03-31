@@ -2,10 +2,9 @@ import time as t
 from bot.configs import config, bot_enum
 from asyncio import sleep
 from utils import player, state_handler
-from Sessions import session_manager, session_messenger
+from Sessions import session_manager, session_messenger, countdown
 from Sessions.Session import Session
 from Settings import Settings
-from countdown import countdown
 
 
 async def resume(session: Session):
