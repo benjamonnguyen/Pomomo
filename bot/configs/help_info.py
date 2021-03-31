@@ -8,7 +8,7 @@ POMO_ARGS = 'pomodoro: duration of each pomodoro in minutes (Default: 20 min)\n'
 
 COUNTDOWN_ARGS = 'duration: duration of countdown in minutes\n' \
                  'title: title of the pinned message. ' \
-                 'Enclose title in " " if longer than one word (Default: \"Countdown\")' \
+                 'Enclose title in " " if longer than one word (Default: \"Countdown\")\n' \
                  'audio_alert: Set to \'False\' to disable audio alert in voice channel (Default: True)'
 
 CMD_INFO = {'start': ['start [pomodoro] [short_break] [long_break] [intervals]',
