@@ -1,4 +1,5 @@
 from discord.ext.commands import Context
+from discord import Message
 from Settings import Settings
 from Timer import Timer
 from Stats import Stats
@@ -16,4 +17,4 @@ class Session:
         self.timeout = 0
         self.subscribers = set()
 
-        self.countdown_msg = None
+        self.countdown_msg: Message = None

@@ -4,7 +4,6 @@ from asyncio import sleep
 from Sessions import session_manager, session_controller
 from utils import player
 from discord.ext.commands import Context
-from discord.ext import commands
 from discord import Colour
 
 

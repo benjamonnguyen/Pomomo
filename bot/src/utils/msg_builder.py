@@ -1,6 +1,7 @@
 from bot.configs import config, help_info
 from Settings import Settings
 from Stats import Stats
+from discord import Embed, Colour
 
 
 def settings_msg(settings: Settings) -> str:
@@ -10,22 +11,27 @@ def settings_msg(settings: Settings) -> str:
            f'Long break interval: {settings.intervals}'
 
 
-def help_msg(for_command):
-    msg = '```'
-    command_info = help_info.CMD_INFO
+def help_embed(for_command):
     if for_command == '':
-        msg += f'{help_info.SUMMARY}COMMANDS:\n'
-        for command in command_info.values():
-            msg += f'{command[0]}\n'
-        msg += f'\nFor more info on a specific command, type \'{config.CMD_PREFIX}help [command]\'\n\n'\
-               + help_info.CONTACT + '```'
+        embed = Embed(title='Help Menu', description=help_info.SUMMARY, colour=Colour.blue())
+        control_cmds = ''
+        for command in help_info.CONTROL_CMDS.values():
+            control_cmds += f'{command[0]}\n'
+        embed.add_field(name='Control commands', value=control_cmds, inline=False)
+        info_cmds = ''
+        for command in help_info.INFO_CMDS.values():
+            info_cmds += f'{command[0]}\n'
+        embed.add_field(name='Info commands', value=info_cmds, inline=False)
+        more_info = f'\nFor more info on a specific command, type \'{config.CMD_PREFIX}help [command]\'\n\n'\
+                 + help_info.LINKS + help_info.CONTACT
+        embed.add_field(name='\u200b', value=more_info, inline=False)
     else:
-        if for_command in command_info.keys():
-            command = command_info.get(for_command)
-            msg += command[0] + ' \n' + command[1] + '```'
+        command = help_info.CONTROL_CMDS.get(for_command) or help_info.INFO_CMDS.get(for_command)
+        if command:
+            embed = Embed(title=command[0], description=command[1], colour=Colour.blue())
         else:
-            msg = 'Enter a valid command.'
-    return msg
+            return
+    return embed
 
 
 def stats_msg(stats: Stats):

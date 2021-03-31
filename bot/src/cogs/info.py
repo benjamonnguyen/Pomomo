@@ -13,7 +13,11 @@ class Info(commands.Cog):
 
     @commands.command()
     async def help(self, ctx, command=''):
-        await ctx.send(msg_builder.help_msg(command))
+        help_embed = msg_builder.help_embed(command)
+        if help_embed:
+            await ctx.send(embed=help_embed)
+        else:
+            await ctx.send('Enter a valid command.')
 
     @commands.command()
     async def time(self, ctx):
@@ -53,7 +57,7 @@ class Info(commands.Cog):
                 subs.add(user)
                 await user.send(f'Hey {user.display_name}! '
                                 f'You are now subscribed to DM alerts for {ctx.guild.name}.\n'
-                                f'Use command \'{config.CMD_PREFIX}dm\' in the appropriate server to unsubscribe.')
+                                f'Use command \'{config.CMD_PREFIX}dm\' in the server\'s text channel to unsubscribe.')
 
 
 def setup(client):
