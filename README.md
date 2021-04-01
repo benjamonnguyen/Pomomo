@@ -15,9 +15,9 @@ Designate time to focus so everyone can get stuff done while hanging out! You ca
 
 ### Demo
 
-![Imgur Image](https://i.imgur.com/bVMTAIi.png)
+![Imgur Image](https://i.imgur.com/w3LfMP3.png)
 
-![Giphy Gif](https://media.giphy.com/media/KsdY67j4LdQQ0xhRsq/giphy.gif)
+![Giphy Gif](https://media.giphy.com/media/rD2aQ1uPCetKN8zpI6/giphy.gif)
 
 ### Commands
 >**start \[pomodoro] \[short_break] \[long_break] \[intervals]**\
