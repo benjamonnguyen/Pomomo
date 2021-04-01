@@ -29,9 +29,7 @@ class Info(commands.Cog):
     async def settings(self, ctx):
         session = await session_manager.get_server_session(ctx)
         if session:
-            msg = 'Session settings:\n\n' + \
-                  msg_builder.settings_msg(session.settings)
-            await ctx.send(msg)
+            await ctx.send(embed=msg_builder.settings_embed(session.settings))
 
     @commands.command()
     async def stats(self, ctx):

@@ -6,15 +6,13 @@ from discord import Embed, Colour
 
 
 async def send_start_msg(session: Session):
-    msg = f'{random.choice(u_msg.GREETINGS)}\n\n' + \
-          msg_builder.settings_msg(session.settings)
-    await session.ctx.send(msg)
+    await session.ctx.send(random.choice(u_msg.GREETINGS),
+                           embed=msg_builder.settings_embed(session.settings))
 
 
 async def send_edit_msg(session: Session):
-    msg = 'Continuing pomodoro session with new settings!\n\n' + \
-          msg_builder.settings_msg(session.settings)
-    await session.ctx.send(msg)
+    await session.ctx.send('Continuing pomodoro session with new settings!',
+                           embed=msg_builder.settings_embed(session.settings))
 
 
 async def send_countdown_msg(session: Session, title: str):
