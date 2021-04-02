@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import discord
 from discord.ext import commands, tasks
 import config
-from Sessions import session_manager
+from session import session_manager
 
 intents = discord.Intents.default()
 intents.typing = False

@@ -1,9 +1,9 @@
 import config
 
 NO_ACTIVE_SESSION_ERR = 'No active session.\n' \
-                    f'Use command \'{config.CMD_PREFIX}start [pomodoro] [short_break] [long_break] [intervals]\'.'
+                        f'Use command \'{config.CMD_PREFIX}start [pomodoro] [short_break] [long_break] [intervals]\'.'
 
-ACTIVE_SESSION_EXISTS_ERR = 'There is already an active pomodoro session on the server.\n'
+ACTIVE_SESSION_EXISTS_ERR = 'There is already an active session on the server.\n'
 
 NUM_LT_ONE_ERR = 'Must use numbers greater than 0.'
 

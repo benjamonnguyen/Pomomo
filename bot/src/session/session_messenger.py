@@ -1,7 +1,7 @@
 import random
 from utils import msg_builder
 from bot.configs import user_messages as u_msg
-from Sessions.Session import Session
+from session.Session import Session
 from discord import Embed, Colour
 
 

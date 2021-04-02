@@ -15,21 +15,21 @@ def settings_embed(settings: Settings) -> Embed:
 def help_embed(for_command):
     if for_command == '':
         embed = Embed(title='Help menu', description=help_info.SUMMARY, colour=Colour.blue())
-        control_cmds = ''
-        for command in help_info.CONTROL_CMDS.values():
-            control_cmds += f'{command[0]}\n'
-        embed.add_field(name='Control commands', value=control_cmds, inline=False)
-        info_cmds = ''
-        for command in help_info.INFO_CMDS.values():
-            info_cmds += f'{command[0]}\n'
-        embed.add_field(name='Info commands', value=info_cmds, inline=False)
+        for cmds_key, cmds_dict in help_info.COMMANDS.items():
+            values = ''
+            for value in cmds_dict.values():
+                values += f'{value[0]}\n'
+            embed.add_field(name=cmds_key, value=values, inline=False)
         more_info = f'\nFor more info on a specific command, type \'{config.CMD_PREFIX}help [command]\'\n\n' \
                     + help_info.LINKS + help_info.CONTACT
         embed.add_field(name='\u200b', value=more_info, inline=False)
     else:
-        command = help_info.CONTROL_CMDS.get(for_command) or help_info.INFO_CMDS.get(for_command)
-        if command:
-            embed = Embed(title=command[0], description=command[1], colour=Colour.blue())
+        for cmds_key, cmds_dict in help_info.COMMANDS.items():
+            cmd_info = cmds_dict.get(for_command)
+            if cmd_info:
+                break
+        if cmd_info:
+            embed = Embed(title=cmd_info[0], description=cmd_info[1], colour=Colour.blue())
         else:
             return
     return embed

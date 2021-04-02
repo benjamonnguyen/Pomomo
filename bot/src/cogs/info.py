@@ -1,8 +1,7 @@
 from discord.ext import commands
 from utils import msg_builder
 import user_messages as u_msg
-import config
-from Sessions import session_manager
+from session import session_manager
 from random import choice
 
 
@@ -41,21 +40,6 @@ class Info(commands.Cog):
                                choice(u_msg.ENCOURAGEMENTS))
             else:
                 await ctx.send('You haven\'t completed any pomodoros yet.')
-
-    @commands.command()
-    async def dm(self, ctx):
-        session = await session_manager.get_server_session(ctx)
-        if session:
-            user = ctx.author
-            subs = session.subscribers
-            if user in subs:
-                subs.remove(user)
-                await user.send(f'You\'ve been unsubscribed from DM alerts for {ctx.guild.name}.')
-            else:
-                subs.add(user)
-                await user.send(f'Hey {user.display_name}! '
-                                f'You are now subscribed to DM alerts for {ctx.guild.name}.\n'
-                                f'Use command \'{config.CMD_PREFIX}dm\' in the server\'s text channel to unsubscribe.')
 
 
 def setup(client):

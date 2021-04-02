@@ -4,7 +4,7 @@ import time as t
 import asyncio
 import random
 from bot.configs import config, user_messages as u_msg
-from Sessions.Session import Session
+from session.Session import Session
 
 active_sessions = {}
 

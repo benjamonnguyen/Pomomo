@@ -2,7 +2,7 @@ from discord import FFmpegPCMAudio, PCMVolumeTransformer
 from discord.ext.commands import Context
 import Session
 from bot.configs import bot_enum
-from Sessions import session_manager
+from session import session_manager
 from asyncio import sleep
 
 

@@ -3,6 +3,7 @@ from discord import Message
 from Settings import Settings
 from Timer import Timer
 from Stats import Stats
+from Subscriptions import Subscriptions
 
 
 class Session:
@@ -15,6 +16,6 @@ class Session:
         self.timer = Timer(self)
         self.ctx = ctx
         self.timeout = 0
-        self.subscribers = set()
+        self.subscriptions = Subscriptions()
 
-        self.countdown_msg: Message = None
+        self.countdown_msg: Message

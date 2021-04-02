@@ -1,9 +1,9 @@
 import time as t
 from bot.configs import config, bot_enum
 from asyncio import sleep
-from utils import player, state_handler
-from Sessions import session_manager, session_messenger, countdown
-from Sessions.Session import Session
+from utils import player
+from session import session_manager, session_messenger, countdown
+from session.Session import Session
 from Settings import Settings
 
 
@@ -26,7 +26,7 @@ async def resume(session: Session):
             if killed:
                 break
             await player.alert(session)
-            await state_handler.transition_session(session)
+            await transition_state(session)
 
 
 async def start(session: Session):
@@ -49,4 +49,28 @@ async def end(session: Session):
     if ctx.voice_client:
         await ctx.guild.voice_client.disconnect()
     await countdown.cleanup_pins(ctx)
+    await session.subscriptions.unshush()
     session_manager.active_sessions.pop(ctx.guild.id)
+
+
+async def transition_state(session: Session):
+    subs = session.subscriptions
+    session.timer.running = False
+    if session.state == bot_enum.State.POMODORO:
+        stats = session.stats
+        stats.pomos_completed += 1
+        stats.minutes_completed += session.settings.duration
+        if stats.pomos_completed > 0 and\
+                stats.pomos_completed % session.settings.intervals == 0:
+            session.state = bot_enum.State.LONG_BREAK
+        else:
+            session.state = bot_enum.State.SHORT_BREAK
+        await subs.unshush()
+    else:
+        session.state = bot_enum.State.POMODORO
+    session.timer.set_time_remaining()
+    alert = f'Starting {session.timer.time_remaining_to_str(singular=True)} {session.state}.'
+    await session.ctx.send(alert)
+    await subs.send_dm(alert)
+    if session.state == bot_enum.State.POMODORO:
+        await subs.shush()

@@ -1,8 +1,8 @@
 from discord.ext import commands
-from Sessions import session_manager, session_controller, session_messenger, countdown
-from Sessions.Session import Session
+from session import session_manager, session_controller, session_messenger, countdown
+from session.Session import Session
 from Settings import Settings
-from utils import state_handler, msg_builder, player
+from utils import msg_builder, player
 from bot.configs import config, bot_enum, user_messages as u_msg
 import time as t
 
@@ -104,7 +104,7 @@ class Control(commands.Cog):
                 stats.minutes_completed -= session.settings.duration
 
             await ctx.send(f'Skipping {session.state}.')
-            await state_handler.transition_session(session)
+            await session_controller.transition_state(session)
             await session_controller.resume(session)
 
     @commands.command()

@@ -1,7 +1,7 @@
-from Sessions.Session import Session
+from session.Session import Session
 import time as t
 from asyncio import sleep
-from Sessions import session_manager, session_controller
+from session import session_manager, session_controller
 from utils import player
 from discord.ext.commands import Context
 from discord import Colour
@@ -27,7 +27,7 @@ async def update_msg(session: Session):
         embed.colour = Colour.red()
         embed.description = 'DONE!'
         await countdown_msg.edit(embed=embed)
-        for sub in session.subscribers:
+        for sub in session.subscriptions.dm_subs:
             await sub.send(embed=embed)
         await player.alert(session)
         await session_controller.end(session)

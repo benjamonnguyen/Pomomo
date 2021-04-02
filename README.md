@@ -1,7 +1,7 @@
 ## Pomomo
 Pomodoro Discord Bot
 
-<a href="https://discord.com/api/oauth2/authorize?client_id=821952460909445130&permissions=3155968&scope=bot">Invite Pomomo to your server!</a>
+<a href="https://discord.com/api/oauth2/authorize?client_id=821952460909445130&permissions=15738880&scope=bot">Invite Pomomo to your server!</a>
 __________
 Pomomo was inspired by a need to balance productivity and socializing. 
 It uses the proven Pomodoro technique which alternates periods of work and relaxation 
@@ -11,11 +11,13 @@ Designate time to focus so everyone can get stuff done while hanging out! You ca
 
 ### Features
 
-* Play an alert in your voice channel whenever your pomodoro or break is over
+* Play an alert in your voice channel whenever your pomodoro or break is over.
 
-* Keep track of the session through the text channel the command was sent from or in your DMs if you're subscribed to the session
+* Keep track of the session through the text channel the command was sent from or in your DMs if you're subscribed to the session.
 
 * Set a countdown timer that updates in real time!
+
+* Automatically mute/deafen during pomodoro intervals.
 
 ### Demo
 
@@ -24,6 +26,7 @@ Designate time to focus so everyone can get stuff done while hanging out! You ca
 ![Giphy Gif](https://media.giphy.com/media/rD2aQ1uPCetKN8zpI6/giphy.gif)
 
 ### Commands
+#### Control
 >**start \[pomodoro] \[short_break] \[long_break] \[intervals]**\
 >Start pomodoro session with optional custom settings (Default values are 20, 5, 15, 4)
 
@@ -49,9 +52,7 @@ Designate time to focus so everyone can get stuff done while hanging out! You ca
 >**edit \<pomodoro> \[short_break] \[long_break] \[interval]**\
 >Continue session with new settings
 
->**dm**\
->Toggle subscription to get DM alerts for the server's session
-
+#### Info
 >**time**\
 >Get time remaining
 
@@ -60,6 +61,13 @@ Designate time to focus so everyone can get stuff done while hanging out! You ca
 
 >**settings**\
 >Get settings for session
+
+#### Subscription
+>**dm**\
+>Toggle subscription to get DM alerts for the server's session
+
+>**auto_shush**\
+>Toggle subscription to get automatically deafened and muted during pomodoro intervals
 
 ### Footnotes
 

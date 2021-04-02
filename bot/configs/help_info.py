@@ -11,25 +11,26 @@ COUNTDOWN_ARGS = 'duration: duration of countdown in minutes\n' \
                  'Enclose title in " " if longer than one word (Default: \"Countdown\")\n' \
                  'audio_alert: Set to \'False\' to disable audio alert in voice channel (Default: True)'
 
-CONTROL_CMDS = {'start': ['start [pomodoro] [short_break] [long_break] [intervals]',
-                          'Start pomodoro session with optional custom settings\n\n' + POMO_ARGS],
-                'pause': ['pause', 'Pause session'],
-                'resume': ['resume', 'Resume session'],
-                'restart': ['restart', 'Restart timer'],
-                'skip': ['skip', 'Skip current interval and start the next pomodoro or break'],
-                'stop': ['stop', 'End session'],
-                'edit': ['edit <duration> [short_break] [long_break] [interval]',
-                         'Continue session with new settings\n\n' + POMO_ARGS],
-                'countdown': ['countdown <duration> [title] [audio_alert]',
-                              'Start a countdown which sends a pinned message '
-                              'with a timer that updates in real time\n\n' +
-                              COUNTDOWN_ARGS]
-                }
-
-INFO_CMDS = {'dm': ['dm', 'Toggle subscription to get DM alerts for the server\'s session'],
-             'time': ['time', 'Get time remaining'],
-             'stats': ['stats', 'Get session stats'],
-             'settings': ['settings', 'Get session settings']}
+COMMANDS = {'Control commands': {'start': ['start [pomodoro] [short_break] [long_break] [intervals]',
+                                           'Start pomodoro session with optional custom settings\n\n' + POMO_ARGS],
+                                 'pause': ['pause', 'Pause session'],
+                                 'resume': ['resume', 'Resume session'],
+                                 'restart': ['restart', 'Restart timer'],
+                                 'skip': ['skip', 'Skip current interval and start the next pomodoro or break'],
+                                 'stop': ['stop', 'End session'],
+                                 'edit': ['edit <duration> [short_break] [long_break] [interval]',
+                                          'Continue session with new settings\n\n' + POMO_ARGS],
+                                 'countdown': ['countdown <duration> [title] [audio_alert]',
+                                               'Start a countdown which sends a pinned message '
+                                               'with a timer that updates in real time\n\n' +
+                                               COUNTDOWN_ARGS]
+                                 },
+            'Info commands': {'time': ['time', 'Get time remaining'],
+                              'stats': ['stats', 'Get session stats'],
+                              'settings': ['settings', 'Get session settings']},
+            'Subscription commands': {'dm': ['dm', 'Toggle subscription to get DM alerts for the server\'s session'],
+                                      'auto_deafen': ['auto_deafen', 'Toggle subscription to get automatically'
+                                                                     ' deafened and muted during pomodoro intervals']}}
 
 LINKS = 'Invite Pomomo to your server [here]' \
         '(https://discord.com/api/oauth2/authorize?client_id=821952460909445130&permissions=3155968&scope=bot) ' \
