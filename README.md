@@ -1,6 +1,8 @@
 ## Pomomo
 Pomodoro Discord Bot
 
+![Imgur](https://i.imgur.com/BlykIJ3t.jpg)
+
 <a href="https://discord.com/api/oauth2/authorize?client_id=821952460909445130&permissions=15738880&scope=bot">Invite Pomomo to your server!</a>
 __________
 Pomomo was inspired by a need to balance productivity and socializing. 
@@ -68,13 +70,14 @@ Designate time to focus so everyone can get stuff done while hanging out! You ca
 
 >**auto_shush \[all]**\
 >Toggle subscription to get automatically deafened and muted during pomodoro intervals.\
->Members with mute and deafen permissions can add the "all" argument to auto-shush everyone in the pomodoro voice channel.
+>Members with mute and deafen permissions can add "all" to auto-shush everyone in the pomodoro voice channel.
 
 ### Footnotes
 
-<div>Pomomo is pretty barebones but does what it does super well! 
-I want to make sure the bot is simple, easy to use, and lightweight, but feel free to make any suggestions at feedback.sum@gmail.com.</div>
+Pomomo is pretty barebones but does what it does super well! 
+I want to make sure the bot is simple, easy to use, and lightweight, but feel free to make any suggestions at feedback.sum@gmail.com or drop by the support server [here](https://discord.gg/whszbaXd).
 
-<div><br />Attributions:<br />Icon made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> 
-from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a><br />
-Sound effects obtained from <a href="https://www.zapsplat.com/">www.zapsplat.com</a></div>
+If you'd like to make a donation, you can buy me a coffee [here](https://www.buymeacoffee.com/benjamonn)
+
+Attributions:
+Sound effects obtained from <a href="https://www.zapsplat.com/">www.zapsplat.com</a>
