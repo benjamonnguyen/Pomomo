@@ -75,7 +75,8 @@ Designate time to focus so everyone can get stuff done while hanging out! You ca
 Pomomo is pretty barebones but does what it does super well! 
 I want to make sure the bot is simple, easy to use, and lightweight, but feel free to make any suggestions at feedback.sum@gmail.com or drop by the support server [here](https://discord.gg/whszbaXd).
 
-If you'd like to make a donation, you can buy me a coffee [here](https://www.buymeacoffee.com/benjamonn)
+If you'd like to make a donation, you can buy me a coffee [here](https://www.buymeacoffee.com/benjamonn)!
 
 Attributions:
+
 Sound effects obtained from <a href="https://www.zapsplat.com/">www.zapsplat.com</a>
