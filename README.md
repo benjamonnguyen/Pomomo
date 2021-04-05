@@ -46,8 +46,8 @@ Designate time to focus so everyone can get stuff done while hanging out! You ca
 >End session
 
 >**countdown \<duration> \[title] \[audio_alert]**\
->Start a countdown which sends a pinned message with a timer that updates in real time\
->You can also set a custom title and disable the audio alert (Default values are "Countdown" and True)
+>Start a countdown which sends a pinned message with a timer that updates in real time.\
+>You can also set a custom title and disable the audio alert (Default values are "Countdown" and True).
 
 >**edit \<pomodoro> \[short_break] \[long_break] \[interval]**\
 >Continue session with new settings
@@ -66,8 +66,9 @@ Designate time to focus so everyone can get stuff done while hanging out! You ca
 >**dm**\
 >Toggle subscription to get DM alerts for the server's session
 
->**auto_shush**\
->Toggle subscription to get automatically deafened and muted during pomodoro intervals
+>**auto_shush \[all]**\
+>Toggle subscription to get automatically deafened and muted during pomodoro intervals.\
+>Members with mute and deafen permissions can add the "all" argument to auto-shush everyone in the pomodoro voice channel.
 
 ### Footnotes
 

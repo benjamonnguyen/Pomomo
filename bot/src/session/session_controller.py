@@ -7,11 +7,15 @@ from session.Session import Session
 from Settings import Settings
 
 
-async def resume(session: Session):
+async def resume(session: Session):  # TODO clean up method
     session.timeout = t.time() + config.TIMEOUT
     if session.state == bot_enum.State.COUNTDOWN:
         await countdown.update_msg(session)
         return
+    elif session.state == bot_enum.State.POMODORO:
+        await session.subscriptions.shush()
+    else:
+        await session.subscriptions.unshush()
     while True:
         session.timer.running = True
         timer_end = session.timer.end
@@ -22,9 +26,10 @@ async def resume(session: Session):
                 timer_end == session.timer.end):
             break
         else:
-            killed = await session_manager.kill_if_idle(session)
-            if killed:
+            if await session_manager.kill_if_idle(session):
                 break
+            if session.state == bot_enum.State.POMODORO:
+                await session.subscriptions.unshush()
             await player.alert(session)
             await transition_state(session)
 
@@ -50,6 +55,7 @@ async def end(session: Session):
         await ctx.guild.voice_client.disconnect()
     await countdown.cleanup_pins(ctx)
     await session.subscriptions.unshush()
+    await session.subscriptions.send_dm(f'The session in {ctx.guild.name} has ended.')
     session_manager.active_sessions.pop(ctx.guild.id)
 
 
@@ -65,12 +71,10 @@ async def transition_state(session: Session):
             session.state = bot_enum.State.LONG_BREAK
         else:
             session.state = bot_enum.State.SHORT_BREAK
-        await subs.unshush()
     else:
         session.state = bot_enum.State.POMODORO
+        await subs.shush()
     session.timer.set_time_remaining()
     alert = f'Starting {session.timer.time_remaining_to_str(singular=True)} {session.state}.'
     await session.ctx.send(alert)
     await subs.send_dm(alert)
-    if session.state == bot_enum.State.POMODORO:
-        await subs.shush()

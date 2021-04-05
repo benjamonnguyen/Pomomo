@@ -14,6 +14,24 @@ def connected_to_vc(ctx: Context):
     return voice_client and voice_client.is_connected()
 
 
+def get_voice_channel(ctx: Context) -> discord.VoiceChannel:
+    vc = discord.utils.get(ctx.bot.voice_clients, guild=ctx.guild)
+    if not vc:
+        return
+    return vc.channel
+
+
+def get_voice_channel_nonbot_members(ctx: Context) -> [discord.Member]:
+    vc = get_voice_channel(ctx)
+    if not vc:
+        return list()
+    members = vc.members
+    for member in members:
+        if member.bot:
+            members.remove(member)
+    return members
+
+
 async def get_server_session(ctx: Context) -> Session:
     session = active_sessions.get(ctx.guild.id)
     if session:
@@ -26,7 +44,7 @@ async def get_server_session(ctx: Context) -> Session:
 async def kill_if_idle(session: Session):
     ctx = session.ctx
     if not connected_to_vc(ctx) or\
-            len(ctx.voice_client.channel.members) < 2:
+            len(get_voice_channel_nonbot_members(ctx)) == 0:
         await ctx.invoke(ctx.bot.get_command('stop'))
         return True
     if t.time() < session.timeout:

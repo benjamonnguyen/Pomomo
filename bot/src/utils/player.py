@@ -25,12 +25,3 @@ async def alert(session: Session):
     vc.play(source)
     while vc.is_playing():
         await sleep(1)
-
-
-async def setup_countdown(ctx: Context, audio_alert: bool):
-    if audio_alert:
-        if not session_manager.connected_to_vc(ctx):
-            await ctx.author.voice.channel.connect()
-    else:
-        if session_manager.connected_to_vc(ctx):
-            await ctx.guild.voice_client.disconnect()

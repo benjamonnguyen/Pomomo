@@ -7,13 +7,23 @@ from discord.ext.commands import Context
 from discord import Colour
 
 
+async def handle_connection(ctx: Context, audio_alert: bool):
+    if audio_alert:
+        if not session_manager.connected_to_vc(ctx):
+            await ctx.author.voice.channel.connect()
+            await ctx.guild.get_member(ctx.bot.user.id).edit(deafen=True)
+    else:
+        if session_manager.connected_to_vc(ctx):
+            await ctx.guild.voice_client.disconnect()
+
+
 async def cleanup_pins(ctx: Context):
     for pinned_msg in await ctx.channel.pins():
         if pinned_msg.author == ctx.bot.user:
             embed = pinned_msg.embeds[0]
             embed.colour = Colour.red()
-            await pinned_msg.edit(embed=embed)
             await pinned_msg.unpin()
+            await pinned_msg.edit(embed=embed)
 
 
 async def update_msg(session: Session):
@@ -38,6 +48,7 @@ async def update_msg(session: Session):
 
 async def start(session: Session):
     session.timer.running = True
+    await cleanup_pins(session.ctx)
     while True:
         time_remaining = session.timer.remaining
         await sleep(1)

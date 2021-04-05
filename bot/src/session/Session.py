@@ -16,6 +16,6 @@ class Session:
         self.timer = Timer(self)
         self.ctx = ctx
         self.timeout = 0
-        self.subscriptions = Subscriptions()
+        self.subscriptions = Subscriptions(self)
 
         self.countdown_msg: Message

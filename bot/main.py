@@ -2,8 +2,9 @@ import os
 from dotenv import load_dotenv
 import discord
 from discord.ext import commands, tasks
-import config
+from configs import config
 from session import session_manager
+
 
 intents = discord.Intents.default()
 intents.typing = False

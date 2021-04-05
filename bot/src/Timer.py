@@ -23,7 +23,7 @@ class Timer:
         self.end = t.time() + delay
 
     def time_remaining_to_str(self, singular=False, include_seconds=False) -> str:
-        if self.running:  # and not singular???
+        if self.running:
             time_remaining = self.end - t.time()
         else:
             time_remaining = self.remaining

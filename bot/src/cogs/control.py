@@ -1,3 +1,4 @@
+import discord
 from discord.ext import commands
 from session import session_manager, session_controller, session_messenger, countdown
 from session.Session import Session
@@ -24,6 +25,7 @@ class Control(commands.Cog):
             await ctx.send('Join a voice channel to use Pomomo!')
             return
         await ctx.author.voice.channel.connect()
+        await ctx.guild.get_member(ctx.bot.user.id).edit(deafen=True)
 
         session = Session(bot_enum.State.POMODORO,
                           Settings(pomodoro, short_break, long_break, intervals),
@@ -144,7 +146,7 @@ class Control(commands.Cog):
 
         if not 0 < duration <= 60:
             await ctx.send(u_msg.NUM_OUTSIDE_ONE_AND_SIXTY_ERR)
-        await player.setup_countdown(ctx, audio_alert)
+        await countdown.handle_connection(ctx, audio_alert)
         session = Session(bot_enum.State.COUNTDOWN,
                           Settings(duration),
                           ctx)
