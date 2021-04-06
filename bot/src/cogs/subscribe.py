@@ -45,7 +45,7 @@ class Subscribe(commands.Cog):
                 if auto_shush.ALL in subs:
                     subs.remove(auto_shush.ALL)
                     await ctx.send(f'Auto-shush has been turned off for the {vc_name} channel.')
-                    await session.subscriptions.unshush(auto_shush.ALL)
+                    await auto_shush.unshush(session, auto_shush.ALL)
                 else:
                     subs.add(auto_shush.ALL)
                     await ctx.send(f'Auto-shush has been turned on for the {vc_name} channel.')
@@ -75,7 +75,7 @@ class Subscribe(commands.Cog):
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
-        if not member.bot and before and after and before.channel.id != after.channel.id:
+        if not member.bot and before.channel and after.channel and before.channel.id != after.channel.id:
             session = session_manager.active_sessions.get(member.guild.id)
             if not session:
                 return

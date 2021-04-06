@@ -30,7 +30,7 @@ async def resume(session: Session):  # TODO clean up method
             if await session_manager.kill_if_idle(session):
                 break
             if session.state == bot_enum.State.POMODORO:
-                await session.subscriptions.unshush()
+                await auto_shush.unshush(session)
             await player.alert(session)
             await transition_state(session)
 
@@ -55,7 +55,7 @@ async def end(session: Session):
     if ctx.voice_client:
         await ctx.guild.voice_client.disconnect()
     await countdown.cleanup_pins(ctx)
-    await session.subscriptions.unshush()
+    await auto_shush.unshush(session)
     await session.subscriptions.send_dm(f'The session in {ctx.guild.name} has ended.')
     session_manager.active_sessions.pop(ctx.guild.id)
 
