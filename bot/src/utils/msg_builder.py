@@ -21,7 +21,7 @@ def help_embed(for_command):
                 values += f'{value[0]}\n'
             embed.add_field(name=cmds_key, value=values, inline=False)
         more_info = f'\nFor more info on a specific command, type \'{config.CMD_PREFIX}help [command]\'\n\n' \
-                    + help_info.LINKS + help_info.CONTACT
+                    + help_info.LINKS
         embed.add_field(name='\u200b', value=more_info, inline=False)
     else:
         for cmds_key, cmds_dict in help_info.COMMANDS.items():

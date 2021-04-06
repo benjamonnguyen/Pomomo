@@ -66,7 +66,7 @@ Designate time to focus so everyone can get stuff done while hanging out! You ca
 >**dm**\
 >Toggle subscription to get DM alerts for the server's session
 
->**auto_shush \[all]**\
+>**autoshush \[all]**\
 >Toggle subscription to get automatically deafened and muted during pomodoro intervals.\
 >Members with mute and deafen permissions can add "all" to auto-shush everyone in the pomodoro voice channel.
 
@@ -75,8 +75,6 @@ Designate time to focus so everyone can get stuff done while hanging out! You ca
 Pomomo is pretty barebones but does what it does super well! 
 I want to make sure the bot is simple, easy to use, and lightweight, but feel free to make any suggestions at feedback.sum@gmail.com or drop by the support server [here](https://discord.gg/whszbaXd).
 
-If you'd like to make a donation, you can buy me a coffee [here](https://www.buymeacoffee.com/benjamonn)!
+If you'd like to support Pomomo, you can buy me a coffee [here](https://www.buymeacoffee.com/benjamonn)!
 
-Attributions:
-
-Sound effects obtained from <a href="https://www.zapsplat.com/">www.zapsplat.com</a>
+Attributions: Sound effects obtained from <a href="https://www.zapsplat.com/">www.zapsplat.com</a>

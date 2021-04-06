@@ -3,7 +3,8 @@ from discord import Message
 from Settings import Settings
 from Timer import Timer
 from Stats import Stats
-from subscriptions.Subscriptions import Subscriptions
+from subscriptions.DM import DM
+from subscriptions.AutoShush import AutoShush
 
 
 class Session:
@@ -16,6 +17,7 @@ class Session:
         self.timer = Timer(self)
         self.ctx = ctx
         self.timeout = 0
-        self.subscriptions = Subscriptions()
+        self.dm = DM()
+        self.auto_shush = AutoShush()
 
         self.countdown_msg: Message

@@ -9,10 +9,10 @@ from discord import Colour
 
 async def handle_connection(ctx: Context, audio_alert: str):
     if audio_alert != 'mute':
-        if not session_manager.connected_to_vc(ctx):
+        if not session_manager.get_voice_channel(ctx) and ctx.author.voice:
             await session_manager.connect_to_voice_channel(ctx)
     else:
-        if session_manager.connected_to_vc(ctx):
+        if session_manager.get_voice_client(ctx):
             await ctx.guild.voice_client.disconnect()
 
 
@@ -36,8 +36,7 @@ async def update_msg(session: Session):
         embed.colour = Colour.red()
         embed.description = 'DONE!'
         await countdown_msg.edit(embed=embed)
-        for sub in session.subscriptions.dm_subs:
-            await sub.send(embed=embed)
+        await session.dm.send_embed(embed)
         await player.alert(session)
         await session_controller.end(session)
         return
@@ -47,7 +46,6 @@ async def update_msg(session: Session):
 
 async def start(session: Session):
     session.timer.running = True
-    await cleanup_pins(session.ctx)
     while True:
         time_remaining = session.timer.remaining
         await sleep(1)

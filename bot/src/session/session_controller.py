@@ -5,7 +5,6 @@ from utils import player
 from session import session_manager, session_messenger, countdown
 from session.Session import Session
 from Settings import Settings
-from subscriptions import auto_shush
 
 
 async def resume(session: Session):  # TODO clean up method
@@ -14,9 +13,9 @@ async def resume(session: Session):  # TODO clean up method
         await countdown.update_msg(session)
         return
     elif session.state == bot_enum.State.POMODORO:
-        await auto_shush.shush(session)
+        await session.auto_shush.shush(session.ctx)
     else:
-        await auto_shush.unshush(session)
+        await session.auto_shush.unshush(session.ctx)
     while True:
         session.timer.running = True
         timer_end = session.timer.end
@@ -30,7 +29,7 @@ async def resume(session: Session):  # TODO clean up method
             if await session_manager.kill_if_idle(session):
                 break
             if session.state == bot_enum.State.POMODORO:
-                await auto_shush.unshush(session)
+                await session.auto_shush.unshush(session.ctx)
             await player.alert(session)
             await transition_state(session)
 
@@ -55,13 +54,12 @@ async def end(session: Session):
     if ctx.voice_client:
         await ctx.guild.voice_client.disconnect()
     await countdown.cleanup_pins(ctx)
-    await auto_shush.unshush(session)
-    await session.subscriptions.send_dm(f'The session in {ctx.guild.name} has ended.')
+    await session.auto_shush.unshush(ctx)
+    await session.dm.send_dm(f'The session in {ctx.guild.name} has ended.')
     session_manager.active_sessions.pop(ctx.guild.id)
 
 
 async def transition_state(session: Session):
-    subs = session.subscriptions
     session.timer.running = False
     if session.state == bot_enum.State.POMODORO:
         stats = session.stats
@@ -74,8 +72,8 @@ async def transition_state(session: Session):
             session.state = bot_enum.State.SHORT_BREAK
     else:
         session.state = bot_enum.State.POMODORO
-        await auto_shush.shush(session)
+        await session.auto_shush.shush(session.ctx)
     session.timer.set_time_remaining()
     alert = f'Starting {session.timer.time_remaining_to_str(singular=True)} {session.state}.'
     await session.ctx.send(alert)
-    await subs.send_dm(alert)
+    await session.dm.send_dm(alert)

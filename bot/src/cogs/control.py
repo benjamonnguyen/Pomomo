@@ -16,8 +16,7 @@ class Control(commands.Cog):
     async def start(self, ctx, pomodoro=20, short_break=5, long_break=15, intervals=4):
         if not await Settings.is_valid(ctx, pomodoro, short_break, long_break, intervals):
             return
-
-        if session_manager.connected_to_vc(ctx):
+        if session_manager.get_server_session(ctx):
             await ctx.send(u_msg.ACTIVE_SESSION_EXISTS_ERR)
             return
         if not ctx.author.voice:
