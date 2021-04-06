@@ -35,4 +35,4 @@ venv.bak/
 
 # Tests
 test/
-config.py
+.DS_Store

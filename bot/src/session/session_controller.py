@@ -5,6 +5,7 @@ from utils import player
 from session import session_manager, session_messenger, countdown
 from session.Session import Session
 from Settings import Settings
+from subscriptions import auto_shush
 
 
 async def resume(session: Session):  # TODO clean up method
@@ -13,9 +14,9 @@ async def resume(session: Session):  # TODO clean up method
         await countdown.update_msg(session)
         return
     elif session.state == bot_enum.State.POMODORO:
-        await session.subscriptions.shush()
+        await auto_shush.shush(session)
     else:
-        await session.subscriptions.unshush()
+        await auto_shush.unshush(session)
     while True:
         session.timer.running = True
         timer_end = session.timer.end
@@ -73,7 +74,7 @@ async def transition_state(session: Session):
             session.state = bot_enum.State.SHORT_BREAK
     else:
         session.state = bot_enum.State.POMODORO
-        await subs.shush()
+        await auto_shush.shush(session)
     session.timer.set_time_remaining()
     alert = f'Starting {session.timer.time_remaining_to_str(singular=True)} {session.state}.'
     await session.ctx.send(alert)

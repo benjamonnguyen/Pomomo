@@ -1,9 +1,8 @@
-import discord
 from discord.ext import commands
 from session import session_manager, session_controller, session_messenger, countdown
 from session.Session import Session
 from Settings import Settings
-from utils import msg_builder, player
+from utils import msg_builder
 from bot.configs import config, bot_enum, user_messages as u_msg
 import time as t
 
@@ -24,8 +23,7 @@ class Control(commands.Cog):
         if not ctx.author.voice:
             await ctx.send('Join a voice channel to use Pomomo!')
             return
-        await ctx.author.voice.channel.connect()
-        await ctx.guild.get_member(ctx.bot.user.id).edit(deafen=True)
+        await session_manager.connect_to_voice_channel(ctx)
 
         session = Session(bot_enum.State.POMODORO,
                           Settings(pomodoro, short_break, long_break, intervals),
@@ -134,7 +132,7 @@ class Control(commands.Cog):
             raise error
 
     @commands.command()
-    async def countdown(self, ctx, duration: int, title='Countdown', audio_alert=True):
+    async def countdown(self, ctx, duration: int, title='Countdown', audio_alert=None):
         session = session_manager.active_sessions.get(ctx.guild.id)
         if session:
             await ctx.send('There is an active session running. '

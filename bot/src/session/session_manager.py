@@ -9,7 +9,12 @@ from session.Session import Session
 active_sessions = {}
 
 
-def connected_to_vc(ctx: Context):
+async def connect_to_voice_channel(ctx: Context):
+    await ctx.author.voice.channel.connect()
+    await ctx.guild.get_member(ctx.bot.user.id).edit(deafen=True)
+
+
+def connected_to_vc(ctx: Context) -> bool:
     voice_client = discord.utils.get(ctx.bot.voice_clients, guild=ctx.guild)
     return voice_client and voice_client.is_connected()
 
@@ -21,7 +26,7 @@ def get_voice_channel(ctx: Context) -> discord.VoiceChannel:
     return vc.channel
 
 
-def get_voice_channel_nonbot_members(ctx: Context) -> [discord.Member]:
+def get_nonbot_members_in_voice_channel(ctx: Context) -> [discord.Member]:
     vc = get_voice_channel(ctx)
     if not vc:
         return list()
@@ -44,7 +49,7 @@ async def get_server_session(ctx: Context) -> Session:
 async def kill_if_idle(session: Session):
     ctx = session.ctx
     if not connected_to_vc(ctx) or\
-            len(get_voice_channel_nonbot_members(ctx)) == 0:
+            len(get_nonbot_members_in_voice_channel(ctx)) == 0:
         await ctx.invoke(ctx.bot.get_command('stop'))
         return True
     if t.time() < session.timeout:

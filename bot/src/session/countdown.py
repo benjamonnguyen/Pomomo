@@ -7,11 +7,10 @@ from discord.ext.commands import Context
 from discord import Colour
 
 
-async def handle_connection(ctx: Context, audio_alert: bool):
-    if audio_alert:
+async def handle_connection(ctx: Context, audio_alert: str):
+    if audio_alert != 'mute':
         if not session_manager.connected_to_vc(ctx):
-            await ctx.author.voice.channel.connect()
-            await ctx.guild.get_member(ctx.bot.user.id).edit(deafen=True)
+            await session_manager.connect_to_voice_channel(ctx)
     else:
         if session_manager.connected_to_vc(ctx):
             await ctx.guild.voice_client.disconnect()
