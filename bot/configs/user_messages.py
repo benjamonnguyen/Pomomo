@@ -5,7 +5,7 @@ NO_ACTIVE_SESSION_ERR = 'No active session.\n' \
 
 ACTIVE_SESSION_EXISTS_ERR = 'There is already an active session on the server.\n'
 
-NUM_LT_ONE_ERR = 'Must use numbers greater than 0.'
+NUM_OUTSIDE_ONE_AND_MAX_INTERVAL_ERR = f'Use durations between 1 and {config.MAX_INTERVAL_MINUTES} minutes.'
 
 NUM_OUTSIDE_ONE_AND_SIXTY_ERR = 'Duration must be between 1 and 60 minutes.'
 
@@ -13,11 +13,14 @@ MISSING_ARG_ERR = 'Pass in at least one number.'
 
 GREETINGS = ['Howdy howdy! Let\'s do this thang.',
              'Hey there! Let\'s get started!',
-             'It\'s productivity o\'clock!']
+             'It\'s productivity o\'clock!',
+             'Let\'s ketchup on some work!']
 
 ENCOURAGEMENTS = ['Let\'s keep it going!',
                   'Keep up the good work!',
-                  'That\'s some good stuff!']
+                  'That\'s what I\'m talking about!',
+                  'You got this!',
+                  'You\'re doing amazing!']
 
 STILL_THERE = ['Phew...I was getting nervous 😅',
                'Gotcha! Just checking 😊',

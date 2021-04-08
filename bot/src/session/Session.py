@@ -16,8 +16,9 @@ class Session:
         self.settings = settings
         self.timer = Timer(self)
         self.ctx = ctx
+        # TODO store text_channel, voice_client, guild_id in place of ctx for multiple sessions per server extensibility
+        # TODO In tangent with session_manager.update_ctx()
         self.timeout = 0
         self.dm = DM()
         self.auto_shush = AutoShush()
-
-        self.countdown_msg: Message
+        self.countdown_msg = None

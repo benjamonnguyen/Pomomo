@@ -8,7 +8,7 @@ from Settings import Settings
 
 
 async def resume(session: Session):  # TODO clean up method
-    session.timeout = t.time() + config.TIMEOUT
+    session.timeout = t.time() + config.TIMEOUT_SECONDS
     if session.state == bot_enum.State.COUNTDOWN:
         await countdown.update_msg(session)
         return
@@ -51,11 +51,12 @@ async def edit(session: Session, new_settings: Settings):
 
 async def end(session: Session):
     ctx = session.ctx
-    if ctx.voice_client:
-        await ctx.guild.voice_client.disconnect()
-    await countdown.cleanup_pins(ctx)
+    await countdown.cleanup_pins(session)
     await session.auto_shush.unshush(ctx)
-    await session.dm.send_dm(f'The session in {ctx.guild.name} has ended.')
+    for sub in session.auto_shush.subs.union(session.dm.subs):
+        await sub.send(f'The session in {ctx.guild.name} has ended.')
+    if session_manager.get_voice_client(ctx):
+        await ctx.guild.voice_client.disconnect()
     session_manager.active_sessions.pop(ctx.guild.id)
 
 

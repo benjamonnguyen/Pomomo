@@ -16,9 +16,9 @@ async def handle_connection(ctx: Context, audio_alert: str):
             await ctx.guild.voice_client.disconnect()
 
 
-async def cleanup_pins(ctx: Context):
-    for pinned_msg in await ctx.channel.pins():
-        if pinned_msg.author == ctx.bot.user:
+async def cleanup_pins(session: Session):
+    for pinned_msg in await session.ctx.channel.pins():
+        if session.countdown_msg and pinned_msg != session.countdown_msg and pinned_msg.author == session.ctx.bot.user:
             embed = pinned_msg.embeds[0]
             embed.colour = Colour.red()
             await pinned_msg.unpin()
@@ -35,17 +35,19 @@ async def update_msg(session: Session):
     if timer.remaining < 0:
         embed.colour = Colour.red()
         embed.description = 'DONE!'
+        await session.auto_shush.unshush(session.ctx)
         await countdown_msg.edit(embed=embed)
         await session.dm.send_embed(embed)
         await player.alert(session)
         await session_controller.end(session)
         return
-    embed.description = f'{timer.time_remaining_to_str(include_seconds=True)} left!'
+    embed.description = f'{timer.time_remaining_to_str(hi_rez=True)} left!'
     await countdown_msg.edit(embed=embed)
 
 
 async def start(session: Session):
     session.timer.running = True
+    await cleanup_pins(session)
     while True:
         time_remaining = session.timer.remaining
         await sleep(1)

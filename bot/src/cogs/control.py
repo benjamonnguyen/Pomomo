@@ -16,7 +16,7 @@ class Control(commands.Cog):
     async def start(self, ctx, pomodoro=20, short_break=5, long_break=15, intervals=4):
         if not await Settings.is_valid(ctx, pomodoro, short_break, long_break, intervals):
             return
-        if session_manager.get_server_session(ctx):
+        if session_manager.active_sessions.get(ctx.guild.id):
             await ctx.send(u_msg.ACTIVE_SESSION_EXISTS_ERR)
             return
         if not ctx.author.voice:
@@ -32,7 +32,7 @@ class Control(commands.Cog):
     @start.error
     async def handle_error(self, ctx, error):
         if isinstance(error, commands.BadArgument):
-            await ctx.send(u_msg.NUM_LT_ONE_ERR)
+            await ctx.send(u_msg.NUM_OUTSIDE_ONE_AND_MAX_INTERVAL_ERR)
         else:
             raise error
 
@@ -40,12 +40,12 @@ class Control(commands.Cog):
     async def stop(self, ctx):
         session = await session_manager.get_server_session(ctx)
         if session:
-            await session_controller.end(session)
             if session.stats.pomos_completed > 0:
                 await ctx.send(f'Great job! '
                                f'You completed {msg_builder.stats_msg(session.stats)}.')
             else:
                 await ctx.send(f'See you again soon! 👋')
+            await session_controller.end(session)
 
     @commands.command()
     async def pause(self, ctx):
@@ -56,10 +56,11 @@ class Control(commands.Cog):
                 await ctx.send('Timer is already paused.')
                 return
 
+            await session.auto_shush.unshush(ctx)
             timer.running = False
             timer.remaining = timer.end - t.time()
             await ctx.send(f'Pausing {session.state}.')
-            session.timeout = t.time() + config.PAUSE_TIMEOUT
+            session.timeout = t.time() + config.PAUSE_TIMEOUT_SECONDS
 
     @commands.command()
     async def resume(self, ctx):
@@ -126,7 +127,7 @@ class Control(commands.Cog):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(u_msg.MISSING_ARG_ERR)
         elif isinstance(error, commands.BadArgument):
-            await ctx.send(u_msg.NUM_LT_ONE_ERR)
+            await ctx.send(u_msg.NUM_OUTSIDE_ONE_AND_MAX_INTERVAL_ERR)
         else:
             raise error
 
@@ -141,8 +142,8 @@ class Control(commands.Cog):
                 await ctx.send('OK, cancelling new countdown.')
                 return
 
-        if not 0 < duration <= 60:
-            await ctx.send(u_msg.NUM_OUTSIDE_ONE_AND_SIXTY_ERR)
+        if not 0 < duration <= 180:
+            await ctx.send(u_msg.NUM_OUTSIDE_ONE_AND_MAX_INTERVAL_ERR)
         await countdown.handle_connection(ctx, audio_alert)
         session = Session(bot_enum.State.COUNTDOWN,
                           Settings(duration),
@@ -156,7 +157,7 @@ class Control(commands.Cog):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(u_msg.MISSING_ARG_ERR)
         elif isinstance(error, commands.BadArgument):
-            await ctx.send(u_msg.NUM_OUTSIDE_ONE_AND_SIXTY_ERR)
+            await ctx.send(u_msg.NUM_OUTSIDE_ONE_AND_MAX_INTERVAL_ERR)
         else:
             raise error
 

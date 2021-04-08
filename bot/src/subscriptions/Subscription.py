@@ -1,4 +1,4 @@
-class Subscriptions:
+class Subscription:
 
     def __init__(self):
         self.subs = set()

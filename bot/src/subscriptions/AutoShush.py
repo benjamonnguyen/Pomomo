@@ -1,20 +1,20 @@
 from discord.ext.commands import Context
 from session import session_manager
 from bot.configs import config, bot_enum
-from Subscriptions import Subscriptions
+from Subscription import Subscription
 
 
 ALL = "all"
 
 
-class AutoShush(Subscriptions):
+class AutoShush(Subscription):
 
     def __init__(self):
         super().__init__()
         self.all = False
 
     async def shush(self, ctx: Context, who=None):
-        vc_members = session_manager.get_nonbot_members_in_voice_channel(ctx)
+        vc_members = session_manager.get_true_members_in_voice_channel(ctx)
         if who == ALL:
             for member in vc_members:
                 await member.edit(deafen=True, mute=True)
@@ -29,7 +29,7 @@ class AutoShush(Subscriptions):
                     await member.edit(deafen=True, mute=True)
 
     async def unshush(self, ctx: Context, who=None):
-        vc_members = session_manager.get_nonbot_members_in_voice_channel(ctx)
+        vc_members = session_manager.get_true_members_in_voice_channel(ctx)
         if who == ALL:
             for member in vc_members:
                 await member.edit(deafen=False, mute=False)
@@ -59,27 +59,27 @@ class AutoShush(Subscriptions):
             await self.shush(ctx, ALL)
 
     async def remove_sub(self, ctx: Context):
-        vc_members = session_manager.get_nonbot_members_in_voice_channel(ctx)
+        vc_members = session_manager.get_true_members_in_voice_channel(ctx)
         vc_name = session_manager.get_voice_channel(ctx).name
         if self.all:
             await ctx.send(f'Auto-shush is already turned on for all members in the {vc_name} channel.')
             return
         self.subs.remove(ctx.author)
         await ctx.author.send('You will no longer be automatically deafened and muted'
-                              f' during pomodoro intervals in {ctx.guild.name}\'s {vc_name} channel.\n')
+                              f' during focus intervals in {ctx.guild.name}\'s {vc_name} channel.\n')
         if ctx.author in vc_members:
             await self.unshush(ctx, ctx.author)
 
     async def add_sub(self, state: bot_enum.State, ctx: Context):
-        vc_members = session_manager.get_nonbot_members_in_voice_channel(ctx)
+        vc_members = session_manager.get_true_members_in_voice_channel(ctx)
         vc_name = session_manager.get_voice_channel(ctx).name
         if self.all:
             await ctx.send(f'Auto-shush is already turned on for all members in the {vc_name} channel.')
             return
         self.subs.add(ctx.author)
         await ctx.author.send(f'Hey {ctx.author.display_name}! You will now be automatically deafened and muted '
-                              f'during pomodoro intervals in {ctx.guild.name}\'s {vc_name} channel.\n'
-                              f'Use command \'{config.CMD_PREFIX}auto_shush\' in one of the server\'s '
+                              f'during focus intervals in {ctx.guild.name}\'s {vc_name} channel.\n'
+                              f'Use command \'{config.CMD_PREFIX}autoshush\' in one of the server\'s '
                               'text channels to turn off auto-shush.')
         if state in [bot_enum.State.POMODORO, bot_enum.State.COUNTDOWN] and ctx.author in vc_members:
             await self.shush(ctx, ctx.author)

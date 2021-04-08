@@ -41,6 +41,10 @@ class Info(commands.Cog):
             else:
                 await ctx.send('You haven\'t completed any pomodoros yet.')
 
+    @commands.command()
+    async def servers(self, ctx):
+        await ctx.send(f'Pomomo is in {len(self.client.guilds)} servers!')
+
 
 def setup(client):
     client.add_cog(Info(client))

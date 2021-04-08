@@ -28,7 +28,7 @@ def get_voice_channel(ctx: Context):
     return vc.channel
 
 
-def get_nonbot_members_in_voice_channel(ctx: Context) -> [discord.Member]:
+def get_true_members_in_voice_channel(ctx: Context) -> [discord.Member]:
     vc = get_voice_channel(ctx)
     if not vc:
         return list()
@@ -51,7 +51,7 @@ async def get_server_session(ctx: Context) -> Session:
 async def kill_if_idle(session: Session):
     ctx = session.ctx
     if not get_voice_channel(ctx) or\
-            len(get_nonbot_members_in_voice_channel(ctx)) == 0:
+            len(get_true_members_in_voice_channel(ctx)) == 0:
         await ctx.invoke(ctx.bot.get_command('stop'))
         return True
     if t.time() < session.timeout:
@@ -68,6 +68,6 @@ async def kill_if_idle(session: Session):
         else:
             await ctx.send(random.choice(u_msg.STILL_THERE))
             if session.timer.running:
-                session.timeout = t.time() + config.TIMEOUT
+                session.timeout = t.time() + config.TIMEOUT_SECONDS
             else:
-                session.timeout = t.time() + config.PAUSE_TIMEOUT
+                session.timeout = t.time() + config.PAUSE_TIMEOUT_SECONDS

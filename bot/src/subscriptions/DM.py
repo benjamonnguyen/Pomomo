@@ -1,8 +1,8 @@
-from Subscriptions import Subscriptions
+from Subscription import Subscription
 from discord import Embed
 
 
-class DM(Subscriptions):
+class DM(Subscription):
 
     def __init__(self):
         super().__init__()
