@@ -37,7 +37,7 @@ async def update_msg(session: Session):
         embed.description = 'DONE!'
         await session.auto_shush.unshush(session.ctx)
         await countdown_msg.edit(embed=embed)
-        await session.dm.send_embed(embed)
+        await session.dm.send_dm(embed=embed)
         await player.alert(session)
         await session_controller.end(session)
         return

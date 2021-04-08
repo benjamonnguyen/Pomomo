@@ -2,36 +2,20 @@ import time as t
 from bot.configs import config, bot_enum
 from asyncio import sleep
 from utils import player
-from session import session_manager, session_messenger, countdown
+from session import session_manager, session_messenger, countdown, state_handler
 from session.Session import Session
 from Settings import Settings
 
 
-async def resume(session: Session):  # TODO clean up method
+async def resume(session: Session):
     session.timeout = t.time() + config.TIMEOUT_SECONDS
+    await state_handler.auto_shush(session)
     if session.state == bot_enum.State.COUNTDOWN:
-        await countdown.update_msg(session)
+        await countdown.start(session)
         return
-    elif session.state == bot_enum.State.POMODORO:
-        await session.auto_shush.shush(session.ctx)
-    else:
-        await session.auto_shush.unshush(session.ctx)
     while True:
-        session.timer.running = True
-        timer_end = session.timer.end
-        await sleep(session.timer.remaining)
-        session = session_manager.active_sessions.get(session.ctx.guild.id)
-        if not (session and
-                session.timer.running and
-                timer_end == session.timer.end):
+        if not await run_interval(session):
             break
-        else:
-            if await session_manager.kill_if_idle(session):
-                break
-            if session.state == bot_enum.State.POMODORO:
-                await session.auto_shush.unshush(session.ctx)
-            await player.alert(session)
-            await transition_state(session)
 
 
 async def start(session: Session):
@@ -60,21 +44,21 @@ async def end(session: Session):
     session_manager.active_sessions.pop(ctx.guild.id)
 
 
-async def transition_state(session: Session):
-    session.timer.running = False
-    if session.state == bot_enum.State.POMODORO:
-        stats = session.stats
-        stats.pomos_completed += 1
-        stats.minutes_completed += session.settings.duration
-        if stats.pomos_completed > 0 and\
-                stats.pomos_completed % session.settings.intervals == 0:
-            session.state = bot_enum.State.LONG_BREAK
-        else:
-            session.state = bot_enum.State.SHORT_BREAK
+async def run_interval(session: Session) -> bool:
+    session.timer.running = True
+    timer_end = session.timer.end
+    await sleep(session.timer.remaining)
+    session = session_manager.active_sessions.get(session.ctx.guild.id)
+    if not (session and
+            session.timer.running and
+            timer_end == session.timer.end):
+        return False
     else:
-        session.state = bot_enum.State.POMODORO
-        await session.auto_shush.shush(session.ctx)
-    session.timer.set_time_remaining()
-    alert = f'Starting {session.timer.time_remaining_to_str(singular=True)} {session.state}.'
-    await session.ctx.send(alert)
-    await session.dm.send_dm(alert)
+        if await session_manager.kill_if_idle(session):
+            return False
+        # TODO check this out, should be inside another method unless timing doesn't allow
+        if session.state == bot_enum.State.POMODORO:
+            await session.auto_shush.unshush(session.ctx)
+        await player.alert(session)
+        await state_handler.transition(session)
+    return True

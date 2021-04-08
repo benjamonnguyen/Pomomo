@@ -1,5 +1,5 @@
 from discord.ext import commands
-from session import session_manager, session_controller, session_messenger, countdown
+from session import session_manager, session_controller, session_messenger, countdown, state_handler
 from session.Session import Session
 from Settings import Settings
 from utils import msg_builder
@@ -74,10 +74,7 @@ class Control(commands.Cog):
             timer.running = True
             timer.end = t.time() + timer.remaining
             await ctx.send(f'Resuming {session.state}.')
-            if session.state == bot_enum.State.COUNTDOWN:
-                await countdown.start(session)
-            else:
-                await session_controller.resume(session)
+            await session_controller.resume(session)
 
     @commands.command()
     async def restart(self, ctx):
@@ -104,7 +101,7 @@ class Control(commands.Cog):
                 stats.minutes_completed -= session.settings.duration
 
             await ctx.send(f'Skipping {session.state}.')
-            await session_controller.transition_state(session)
+            await state_handler.transition(session)
             await session_controller.resume(session)
 
     @commands.command()
