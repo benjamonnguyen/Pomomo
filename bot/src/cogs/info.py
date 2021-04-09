@@ -3,6 +3,7 @@ from utils import msg_builder
 import user_messages as u_msg
 from session import session_manager
 from random import choice
+from bot.configs import bot_enum
 
 
 class Info(commands.Cog):
@@ -28,18 +29,24 @@ class Info(commands.Cog):
     async def settings(self, ctx):
         session = await session_manager.get_session(ctx)
         if session:
-            await ctx.send(embed=msg_builder.settings_embed(session))
+            if session.state == bot_enum.State.COUNTDOWN:
+                await ctx.send('Countdowns do not have settings.')
+            else:
+                await ctx.send(embed=msg_builder.settings_embed(session))
 
     @commands.command()
     async def stats(self, ctx):
         session = await session_manager.get_session(ctx)
         if session:
-            stats = session.stats
-            if stats.pomos_completed > 0:
-                await ctx.send(f'You\'ve completed {msg_builder.stats_msg(stats)} so far. ' +
-                               choice(u_msg.ENCOURAGEMENTS))
+            if session.state == bot_enum.State.COUNTDOWN:
+                await ctx.send('Countdowns do not have stats.')
             else:
-                await ctx.send('You haven\'t completed any pomodoros yet.')
+                stats = session.stats
+                if stats.pomos_completed > 0:
+                    await ctx.send(f'You\'ve completed {msg_builder.stats_msg(stats)} so far. ' +
+                                   choice(u_msg.ENCOURAGEMENTS))
+                else:
+                    await ctx.send('You haven\'t completed any pomodoros yet.')
 
     @commands.command()
     async def servers(self, ctx):

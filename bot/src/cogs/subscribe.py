@@ -1,6 +1,4 @@
-import discord
 from discord.ext import commands
-
 from voice_client import vc_accessor as vc_accessor, vc_manager as vc_manager
 from session import session_manager
 from bot.configs import config, bot_enum

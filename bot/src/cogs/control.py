@@ -1,5 +1,4 @@
 from discord.ext import commands
-from voice_client import vc_manager
 from session import session_manager, session_controller, session_messenger, countdown, state_handler
 from session.Session import Session
 from Settings import Settings

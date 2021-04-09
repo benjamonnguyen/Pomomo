@@ -11,10 +11,14 @@ def settings_embed(session: Session) -> Embed:
                f'Long break: {settings.long_break} min\n' \
                f'Long break interval: {settings.intervals}'
     embed = Embed(title='Session settings', description=settings_str, colour=Colour.orange())
+
     vc = session.ctx.voice_client
     if vc:
-        embed.set_footer(text=f'Connected to {vc.channel.name} voice channel')
-        # TODO if auto_shush.all "Auto-shush on"
+        footer = f'Connected to {vc.channel.name} voice channel'
+        if session.auto_shush.all:
+            footer += '\nAuto-shush is on'
+        embed.set_footer(text=footer)
+
     return embed
 
 
