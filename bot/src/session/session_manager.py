@@ -1,51 +1,32 @@
-import discord
 from discord.ext.commands import Context
+from discord import TextChannel
 import time as t
 import asyncio
 import random
 from bot.configs import config, user_messages as u_msg
 from session.Session import Session
+from vc_accessor import get_voice_channel, get_true_members_in_voice_channel
 
 active_sessions = {}
 
 
-async def connect_to_voice_channel(ctx: Context):
-    await ctx.author.voice.channel.connect()
-    await ctx.guild.get_member(ctx.bot.user.id).edit(deafen=True)
+def activate(session: Session):
+    active_sessions[session_id_from(session.ctx.channel)] = session
 
 
-def get_voice_client(ctx: Context):
-    voice_client = discord.utils.get(ctx.bot.voice_clients, guild=ctx.guild)
-    if not (voice_client and voice_client.is_connected()):
-        return
-    return voice_client
+def deactivate(session: Session):
+    active_sessions.pop(session_id_from(session.ctx.channel))
 
 
-def get_voice_channel(ctx: Context):
-    vc = get_voice_client(ctx)
-    if not vc:
-        return
-    return vc.channel
-
-
-def get_true_members_in_voice_channel(ctx: Context) -> [discord.Member]:
-    vc = get_voice_channel(ctx)
-    if not vc:
-        return list()
-    members = vc.members
-    for member in members:
-        if member.bot:
-            members.remove(member)
-    return members
-
-
-async def get_server_session(ctx: Context) -> Session:
-    session = active_sessions.get(ctx.guild.id)
-    if session:
-        session.ctx = ctx
-    else:
+async def get_session(ctx: Context) -> Session:
+    session = active_sessions.get(session_id_from(ctx.channel))
+    if not session:
         await ctx.send(u_msg.NO_ACTIVE_SESSION_ERR)
     return session
+
+
+def session_id_from(tc: TextChannel) -> str:
+    return str(tc.guild.id) + str(tc.id)
 
 
 async def kill_if_idle(session: Session):

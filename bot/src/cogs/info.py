@@ -20,19 +20,19 @@ class Info(commands.Cog):
 
     @commands.command()
     async def time(self, ctx):
-        session = await session_manager.get_server_session(ctx)
+        session = await session_manager.get_session(ctx)
         if session:
             await ctx.send(f'{session.timer.time_remaining_to_str()} remaining on {session.state}!')
 
     @commands.command()
     async def settings(self, ctx):
-        session = await session_manager.get_server_session(ctx)
+        session = await session_manager.get_session(ctx)
         if session:
-            await ctx.send(embed=msg_builder.settings_embed(session.settings))
+            await ctx.send(embed=msg_builder.settings_embed(session))
 
     @commands.command()
     async def stats(self, ctx):
-        session = await session_manager.get_server_session(ctx)
+        session = await session_manager.get_session(ctx)
         if session:
             stats = session.stats
             if stats.pomos_completed > 0:

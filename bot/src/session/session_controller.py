@@ -1,4 +1,5 @@
 import time as t
+from voice_client import vc_accessor, vc_manager
 from bot.configs import config, bot_enum
 from asyncio import sleep
 from utils import player
@@ -19,7 +20,9 @@ async def resume(session: Session):
 
 
 async def start(session: Session):
-    session_manager.active_sessions[session.ctx.guild.id] = session
+    if not await vc_manager.connect(session):
+        return
+    session_manager.activate(session)
     await session_messenger.send_start_msg(session)
     await player.alert(session)
     await resume(session)
@@ -39,16 +42,16 @@ async def end(session: Session):
     await session.auto_shush.unshush(ctx)
     for sub in session.auto_shush.subs.union(session.dm.subs):
         await sub.send(f'The session in {ctx.guild.name} has ended.')
-    if session_manager.get_voice_client(ctx):
-        await ctx.guild.voice_client.disconnect()
-    session_manager.active_sessions.pop(ctx.guild.id)
+    if vc_accessor.get_voice_client(ctx):
+        await vc_manager.disconnect(session)
+    session_manager.deactivate(session)
 
 
 async def run_interval(session: Session) -> bool:
     session.timer.running = True
     timer_end = session.timer.end
     await sleep(session.timer.remaining)
-    session = session_manager.active_sessions.get(session.ctx.guild.id)
+    session = session_manager.active_sessions.get(session_manager.session_id_from(session.ctx.channel))
     if not (session and
             session.timer.running and
             timer_end == session.timer.end):
@@ -56,7 +59,6 @@ async def run_interval(session: Session) -> bool:
     else:
         if await session_manager.kill_if_idle(session):
             return False
-        # TODO check this out, should be inside another method unless timing doesn't allow
         if session.state == bot_enum.State.POMODORO:
             await session.auto_shush.unshush(session.ctx)
         await player.alert(session)

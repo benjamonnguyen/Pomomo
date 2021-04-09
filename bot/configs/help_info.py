@@ -22,7 +22,7 @@ COMMANDS = {'Control commands': {'start': ['start [pomodoro] [short_break] [long
                                  'restart': ['restart', 'Restart timer'],
                                  'skip': ['skip', 'Skip current interval and start the next pomodoro or break.'],
                                  'stop': ['stop', 'End session'],
-                                 'edit': ['edit <duration> [short_break] [long_break] [interval]',
+                                 'edit': ['edit <pomodoro> [short_break] [long_break] [intervals]',
                                           'Continue session with new settings\n\n' + POMO_ARGS],
                                  'countdown': ['countdown <duration> [title] [mute]',
                                                'Start a countdown which sends a pinned message '

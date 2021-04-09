@@ -1,24 +1,26 @@
+from voice_client import vc_accessor, vc_manager
 from session.Session import Session
 import time as t
 from asyncio import sleep
 from session import session_manager, session_controller
 from utils import player
-from discord.ext.commands import Context
 from discord import Colour
 
 
-async def handle_connection(ctx: Context, audio_alert: str):
+async def handle_connection(session: Session, audio_alert: str):
     if audio_alert != 'mute':
-        if not session_manager.get_voice_channel(ctx) and ctx.author.voice:
-            await session_manager.connect_to_voice_channel(ctx)
+        if not vc_accessor.get_voice_channel(session.ctx) and session.ctx.author.voice:
+            if not await vc_manager.connect(session):
+                print('countdown.handle_connection(): Could not connect to voice channel.')
     else:
-        if session_manager.get_voice_client(ctx):
-            await ctx.guild.voice_client.disconnect()
+        vc = vc_accessor.get_voice_client(session.ctx)
+        if vc:
+            await vc.disconnect()
 
 
 async def cleanup_pins(session: Session):
     for pinned_msg in await session.ctx.channel.pins():
-        if session.countdown_msg and pinned_msg != session.countdown_msg and pinned_msg.author == session.ctx.bot.user:
+        if session.bot_start_msg and pinned_msg != session.bot_start_msg and pinned_msg.author == session.ctx.bot.user:
             embed = pinned_msg.embeds[0]
             embed.colour = Colour.red()
             await pinned_msg.unpin()
@@ -28,9 +30,9 @@ async def cleanup_pins(session: Session):
 async def update_msg(session: Session):
     timer = session.timer
     timer.remaining = timer.end - t.time()
-    if not session.countdown_msg:
+    if not session.bot_start_msg:
         return
-    countdown_msg = session.countdown_msg
+    countdown_msg = session.bot_start_msg
     embed = countdown_msg.embeds[0]
     if timer.remaining < 0:
         embed.colour = Colour.red()
@@ -51,7 +53,7 @@ async def start(session: Session):
     while True:
         time_remaining = session.timer.remaining
         await sleep(1)
-        session = session_manager.active_sessions.get(session.ctx.guild.id)
+        session = session_manager.active_sessions.get(session_manager.session_id_from(session.ctx.channel))
         if not (session and
                 session.timer.running and
                 time_remaining == session.timer.remaining):

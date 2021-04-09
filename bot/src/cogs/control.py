@@ -1,4 +1,5 @@
 from discord.ext import commands
+from voice_client import vc_manager
 from session import session_manager, session_controller, session_messenger, countdown, state_handler
 from session.Session import Session
 from Settings import Settings
@@ -16,13 +17,12 @@ class Control(commands.Cog):
     async def start(self, ctx, pomodoro=20, short_break=5, long_break=15, intervals=4):
         if not await Settings.is_valid(ctx, pomodoro, short_break, long_break, intervals):
             return
-        if session_manager.active_sessions.get(ctx.guild.id):
+        if session_manager.active_sessions.get(session_manager.session_id_from(ctx.channel)):
             await ctx.send(u_msg.ACTIVE_SESSION_EXISTS_ERR)
             return
         if not ctx.author.voice:
             await ctx.send('Join a voice channel to use Pomomo!')
             return
-        await session_manager.connect_to_voice_channel(ctx)
 
         session = Session(bot_enum.State.POMODORO,
                           Settings(pomodoro, short_break, long_break, intervals),
@@ -34,11 +34,11 @@ class Control(commands.Cog):
         if isinstance(error, commands.BadArgument):
             await ctx.send(u_msg.NUM_OUTSIDE_ONE_AND_MAX_INTERVAL_ERR)
         else:
-            raise error
+            print(error)
 
     @commands.command()
     async def stop(self, ctx):
-        session = await session_manager.get_server_session(ctx)
+        session = await session_manager.get_session(ctx)
         if session:
             if session.stats.pomos_completed > 0:
                 await ctx.send(f'Great job! '
@@ -49,7 +49,7 @@ class Control(commands.Cog):
 
     @commands.command()
     async def pause(self, ctx):
-        session = await session_manager.get_server_session(ctx)
+        session = await session_manager.get_session(ctx)
         if session:
             timer = session.timer
             if not timer.running:
@@ -64,7 +64,7 @@ class Control(commands.Cog):
 
     @commands.command()
     async def resume(self, ctx):
-        session = await session_manager.get_server_session(ctx)
+        session = await session_manager.get_session(ctx)
         if session:
             timer = session.timer
             if session.timer.running:
@@ -78,7 +78,7 @@ class Control(commands.Cog):
 
     @commands.command()
     async def restart(self, ctx):
-        session = await session_manager.get_server_session(ctx)
+        session = await session_manager.get_session(ctx)
         if session:
             session.timer.set_time_remaining()
             await ctx.send(f'Restarting {session.state}.')
@@ -89,7 +89,7 @@ class Control(commands.Cog):
 
     @commands.command()
     async def skip(self, ctx):
-        session = await session_manager.get_server_session(ctx)
+        session = await session_manager.get_session(ctx)
         if session.state == bot_enum.State.COUNTDOWN:
             ctx.send(f'Countdowns cannot be skipped. '
                      f'Use {config.CMD_PREFIX}stop to end or {config.CMD_PREFIX}restart to start over.')
@@ -106,7 +106,7 @@ class Control(commands.Cog):
 
     @commands.command()
     async def edit(self, ctx, pomodoro: int, short_break: int = None, long_break: int = None, intervals: int = None):
-        session = await session_manager.get_server_session(ctx)
+        session = await session_manager.get_session(ctx)
         if session.state == bot_enum.State.COUNTDOWN:
             ctx.send(f'Countdowns cannot be edited. '
                      f'Use {config.CMD_PREFIX}countdown to start a new one.')
@@ -126,11 +126,11 @@ class Control(commands.Cog):
         elif isinstance(error, commands.BadArgument):
             await ctx.send(u_msg.NUM_OUTSIDE_ONE_AND_MAX_INTERVAL_ERR)
         else:
-            raise error
+            print(error)
 
     @commands.command()
     async def countdown(self, ctx, duration: int, title='Countdown', audio_alert=None):
-        session = session_manager.active_sessions.get(ctx.guild.id)
+        session = session_manager.active_sessions.get(session_manager.session_id_from(ctx.channel))
         if session:
             await ctx.send('There is an active session running. '
                            'Are you sure you want to start a countdown? (y/n)')
@@ -141,11 +141,11 @@ class Control(commands.Cog):
 
         if not 0 < duration <= 180:
             await ctx.send(u_msg.NUM_OUTSIDE_ONE_AND_MAX_INTERVAL_ERR)
-        await countdown.handle_connection(ctx, audio_alert)
         session = Session(bot_enum.State.COUNTDOWN,
                           Settings(duration),
                           ctx)
-        session_manager.active_sessions[session.ctx.guild.id] = session
+        await countdown.handle_connection(session, audio_alert)
+        session_manager.activate(session)
         await session_messenger.send_countdown_msg(session, title)
         await countdown.start(session)
 
@@ -156,7 +156,7 @@ class Control(commands.Cog):
         elif isinstance(error, commands.BadArgument):
             await ctx.send(u_msg.NUM_OUTSIDE_ONE_AND_MAX_INTERVAL_ERR)
         else:
-            raise error
+            print(error)
 
 
 def setup(client):

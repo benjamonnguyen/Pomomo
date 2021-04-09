@@ -3,7 +3,10 @@ import config
 NO_ACTIVE_SESSION_ERR = 'No active session.\n' \
                         f'Use command \'{config.CMD_PREFIX}start [pomodoro] [short_break] [long_break] [intervals]\'.'
 
-ACTIVE_SESSION_EXISTS_ERR = 'There is already an active session on the server.\n'
+ACTIVE_SESSION_EXISTS_ERR = 'There is already an active session on the server.\n'  # TODO multi-server upgrade ^
+# TODO 'a session has already been started from this text channel'
+
+ACTIVE_VOICE_CLIENT_EXISTS_ERR = 'Pomomo is already connected to this voice channel.'
 
 NUM_OUTSIDE_ONE_AND_MAX_INTERVAL_ERR = f'Use durations between 1 and {config.MAX_INTERVAL_MINUTES} minutes.'
 
