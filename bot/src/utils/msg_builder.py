@@ -9,7 +9,7 @@ def settings_embed(session: Session) -> Embed:
     settings_str = f'Pomodoro: {settings.duration} min\n' \
                f'Short break: {settings.short_break} min\n' \
                f'Long break: {settings.long_break} min\n' \
-               f'Long break interval: {settings.intervals}'
+               f'Intervals: {settings.intervals}'
     embed = Embed(title='Session settings', description=settings_str, colour=Colour.orange())
 
     vc = session.ctx.voice_client
