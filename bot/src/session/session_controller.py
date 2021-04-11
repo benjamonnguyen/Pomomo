@@ -1,11 +1,12 @@
 import time as t
-from voice_client import vc_accessor, vc_manager
-from bot.configs import config, bot_enum
 from asyncio import sleep
-from utils import player
-from session import session_manager, session_messenger, countdown, state_handler
-from session.Session import Session
-from Settings import Settings
+
+from . import session_manager, session_messenger, countdown, state_handler
+from .Session import Session
+from ..Settings import Settings
+from ..utils import player
+from ..voice_client import vc_accessor, vc_manager
+from configs import config, bot_enum
 
 
 async def resume(session: Session):

@@ -1,5 +1,5 @@
-from Session import Session
-from bot.configs import bot_enum
+from .Session import Session
+from configs import bot_enum
 
 
 async def transition(session: Session):

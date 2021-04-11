@@ -1,8 +1,9 @@
 from discord.ext import commands
-from voice_client import vc_accessor as vc_accessor, vc_manager as vc_manager
-from session import session_manager
-from bot.configs import config, bot_enum
-from subscriptions import AutoShush
+
+from src.session import session_manager
+from src.subscriptions import AutoShush
+from src.voice_client import vc_accessor as vc_accessor, vc_manager as vc_manager
+from configs import config, bot_enum
 
 
 class Subscribe(commands.Cog):

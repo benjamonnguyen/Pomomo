@@ -1,5 +1,4 @@
-import user_messages as u_msg
-from bot.configs import config
+from configs import user_messages as u_msg, config
 
 
 class Settings:
@@ -13,7 +12,8 @@ class Settings:
     @classmethod
     async def is_valid(cls, ctx, duration: int, short_break: int = None,
                        long_break: int = None, intervals: int = None) -> bool:
-        if config.MAX_INTERVAL_MINUTES > duration > 0 and (not short_break or config.MAX_INTERVAL_MINUTES > short_break > 0) \
+        if config.MAX_INTERVAL_MINUTES > duration > 0 \
+                and (not short_break or config.MAX_INTERVAL_MINUTES > short_break > 0) \
                 and (not long_break or config.MAX_INTERVAL_MINUTES > long_break > 0) \
                 and (not intervals or config.MAX_INTERVAL_MINUTES > intervals > 0):
             return True

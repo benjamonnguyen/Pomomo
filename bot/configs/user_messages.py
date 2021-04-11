@@ -1,4 +1,4 @@
-import config
+from . import config
 
 NO_ACTIVE_SESSION_ERR = 'No active session.\n' \
                         f'Use command \'{config.CMD_PREFIX}start [pomodoro] [short_break] [long_break] [intervals]\'.'

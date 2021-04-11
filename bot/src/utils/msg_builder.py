@@ -1,7 +1,8 @@
-from bot.configs import config, help_info
-from session.Session import Session
-from Stats import Stats
 from discord import Embed, Colour
+
+from configs import config, help_info
+from ..Stats import Stats
+from ..session.Session import Session
 
 
 def settings_embed(session: Session) -> Embed:

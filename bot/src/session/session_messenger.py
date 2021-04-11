@@ -1,8 +1,10 @@
 import random
-from utils import msg_builder
-from bot.configs import user_messages as u_msg
-from session.Session import Session
+
 from discord import Embed, Colour
+
+from .Session import Session
+from ..utils import msg_builder
+from configs import user_messages as u_msg
 
 
 async def send_start_msg(session: Session):

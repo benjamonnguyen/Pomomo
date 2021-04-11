@@ -1,9 +1,10 @@
 from discord.ext.commands import Context
-from Settings import Settings
-from Timer import Timer
-from Stats import Stats
-from subscriptions.Subscription import Subscription
-from subscriptions.AutoShush import AutoShush
+
+from ..Settings import Settings
+from ..Stats import Stats
+from ..Timer import Timer
+from ..subscriptions.AutoShush import AutoShush
+from ..subscriptions.Subscription import Subscription
 
 
 class Session:

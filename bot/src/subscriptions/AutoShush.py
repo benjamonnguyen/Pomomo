@@ -1,9 +1,9 @@
 from discord.ext.commands import Context
 from discord import User
 
-import vc_accessor
-from bot.configs import config, bot_enum
-from Subscription import Subscription
+from ..voice_client import vc_accessor
+from configs import config, bot_enum
+from .Subscription import Subscription
 
 
 ALL = "all"

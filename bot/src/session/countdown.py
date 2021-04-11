@@ -1,10 +1,12 @@
-from voice_client import vc_accessor, vc_manager
-from session.Session import Session
 import time as t
 from asyncio import sleep
-from session import session_manager, session_controller
-from utils import player
+
 from discord import Colour
+
+from ..voice_client import vc_accessor, vc_manager
+from . import session_manager, session_controller
+from .Session import Session
+from ..utils import player
 
 
 async def handle_connection(session: Session, audio_alert: str):

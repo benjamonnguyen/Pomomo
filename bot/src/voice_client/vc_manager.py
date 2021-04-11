@@ -1,9 +1,9 @@
 from discord import VoiceChannel
-from bot.configs import user_messages as u_msg
-from session.Session import Session
 
+from configs import user_messages as u_msg
+from ..session.Session import Session
 
-connected_sessions = {}  # TODO turn manager modules into singletons?
+connected_sessions = {}
 
 
 async def connect(session: Session):

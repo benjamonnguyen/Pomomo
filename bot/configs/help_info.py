@@ -1,4 +1,4 @@
-import config
+from . import config
 
 
 SUMMARY = 'Pomomo helps keep you and your friends on track while you study together!\n' \

@@ -1,5 +1,6 @@
-from bot.configs import bot_enum
 import time as t
+
+from configs import bot_enum
 
 
 class Timer:

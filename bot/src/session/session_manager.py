@@ -1,11 +1,13 @@
-from discord.ext.commands import Context
-from discord import TextChannel
-import time as t
 import asyncio
 import random
-from bot.configs import config, user_messages as u_msg
-from session.Session import Session
-from vc_accessor import get_voice_channel, get_true_members_in_voice_channel
+import time as t
+
+from discord import TextChannel
+from discord.ext.commands import Context
+
+from .Session import Session
+from ..voice_client import vc_accessor
+from configs import config, user_messages as u_msg
 
 active_sessions = {}
 
@@ -31,8 +33,8 @@ def session_id_from(tc: TextChannel) -> str:
 
 async def kill_if_idle(session: Session):
     ctx = session.ctx
-    if not get_voice_channel(ctx) or\
-            len(get_true_members_in_voice_channel(ctx)) == 0:
+    if not vc_accessor.get_voice_channel(ctx) or\
+            len(vc_accessor.get_true_members_in_voice_channel(ctx)) == 0:
         await ctx.invoke(ctx.bot.get_command('stop'))
         return True
     if t.time() < session.timeout:

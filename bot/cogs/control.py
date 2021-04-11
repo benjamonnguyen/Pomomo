@@ -1,10 +1,12 @@
-from discord.ext import commands
-from session import session_manager, session_controller, session_messenger, countdown, state_handler
-from session.Session import Session
-from Settings import Settings
-from utils import msg_builder
-from bot.configs import config, bot_enum, user_messages as u_msg
 import time as t
+
+from discord.ext import commands
+
+from src.Settings import Settings
+from configs import config, bot_enum, user_messages as u_msg
+from src.session import session_manager, session_controller, session_messenger, countdown, state_handler
+from src.session.Session import Session
+from src.utils import msg_builder
 
 
 class Control(commands.Cog):
