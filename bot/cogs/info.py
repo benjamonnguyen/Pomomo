@@ -51,7 +51,8 @@ class Info(commands.Cog):
 
     @commands.command()
     async def servers(self, ctx):
-        await ctx.send(f'Pomomo is in {len(self.client.guilds)} servers!')
+        await ctx.send(f'Pomomo is in {len(self.client.guilds)} servers '
+                       f'with {len(session_manager.active_sessions)} active sessions!')
 
 
 def setup(client):

@@ -32,7 +32,8 @@ COMMANDS = {'Control commands': {'start': ['start [pomodoro] [short_break] [long
                                  },
             'Info commands': {'time': ['time', 'Get time remaining'],
                               'stats': ['stats', 'Get session stats'],
-                              'settings': ['settings', 'Get session settings']},
+                              'settings': ['settings', 'Get session settings'],
+                              'servers': ['servers', 'See how many servers are using Pomomo']},
             'Subscription commands': {'dm': ['dm', 'Toggle subscription to get DM alerts for the server\'s session.'],
                                       'autoshush': ['autoshush [all]', 'Toggle subscription to get automatically'
                                                                        ' deafened and muted during '
