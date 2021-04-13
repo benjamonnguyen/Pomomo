@@ -1,4 +1,7 @@
-## Pomomo
+# Pomomo
+[![Discord Bots](https://top.gg/api/widget/status/821952460909445130.svg)](https://top.gg/bot/821952460909445130)
+[![Discord Bots](https://top.gg/api/widget/servers/821952460909445130.svg?noavatar=true)](https://top.gg/bot/821952460909445130)
+
 Pomodoro Discord Bot
 
 <a href="https://discord.com/api/oauth2/authorize?client_id=821952460909445130&permissions=15738880&scope=bot">Invite Pomomo to your server!</a>
