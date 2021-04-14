@@ -76,7 +76,7 @@ Designate time to focus so everyone can get stuff done while hanging out! You ca
 ### Footnotes
 
 Pomomo is pretty barebones but does what it does super well! 
-I want to make sure the bot is simple, easy to use, and lightweight, but feel free to make any suggestions at feedback.sum@gmail.com or drop by the support server [here](https://discord.gg/whszbaXd).
+I want to make sure the bot is simple, easy to use, and lightweight, but feel free to drop by the support server [here](https://discord.gg/Aghy78wcFr) to leave any suggestions, report a bug, or stay up to date with announcements.
 
 If you'd like to support Pomomo, you can buy me a coffee [here](https://www.buymeacoffee.com/benjamonn)!
 
