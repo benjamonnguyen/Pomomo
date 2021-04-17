@@ -43,8 +43,8 @@ COMMANDS = {'Control commands': {'start': ['start [pomodoro] [short_break] [long
                                                                        'everyone in the pomodoro voice channel.']}}
 
 LINKS = 'Invite Pomomo to your server [here]' \
-        '(https://discord.com/api/oauth2/authorize?client_id=821952460909445130&permissions=3155968&scope=bot)!\n' \
+        '(https://discord.com/api/oauth2/authorize?client_id=821952460909445130&permissions=15738880&scope=bot)!\n' \
         'If you have any suggestions or want to report a bug, visit the support server [here]' \
-        '(https://discord.gg/whszbaXd) or check out the [top.gg](https://top.gg/bot/821952460909445130) ' \
+        '(https://discord.gg/Aghy78wcFr) or check out the [top.gg](https://top.gg/bot/821952460909445130) ' \
         'page for more info.\n\n' \
         'You can also support Pomomo by buying me a coffee [here](https://www.buymeacoffee.com/benjamonn) :)'
