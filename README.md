@@ -6,6 +6,8 @@ Pomodoro Discord Bot
 
 <a href="https://discord.com/api/oauth2/authorize?client_id=821952460909445130&permissions=15739904&scope=bot">Invite Pomomo to your server!</a>
 __________
+NOTE: This source code only includes Pomomo's base features and is no longer up to date with the actual Pomomo bot. However, if you self-host a bot using this code, it would still be fully functional!
+
 Pomomo was inspired by a need to balance productivity and socializing. 
 It uses the proven Pomodoro technique which alternates periods of work and relaxation 
 to maximize productivity while minimizing burnout.
