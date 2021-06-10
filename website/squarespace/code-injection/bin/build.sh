@@ -14,12 +14,10 @@ touch ../bundle/bundle.html
 MINIFIED_CSS=$(uglifycss ../styles/styles.css)
 echo "<style>" >> ../bundle/bundle.html
 echo "  ${MINIFIED_CSS}" >> ../bundle/bundle.html
-#uglifycss ../styles/styles.css >> ../bundle/bundle.html
 echo "</style>" >> ../bundle/bundle.html
 
 # Concatenate minified JavaScript
 MINIFIED_JS=$(uglifyjs ../scripts/scripts.js)
 echo "<script>" >> ../bundle/bundle.html
 echo "  ${MINIFIED_JS}" >> ../bundle/bundle.html
-#uglifyjs ../scripts/scripts.js >> ../bundle/bundle.html
 echo "</script>" >> ../bundle/bundle.html
