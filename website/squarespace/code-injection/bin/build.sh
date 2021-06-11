@@ -4,6 +4,14 @@
 parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 cd "$parent_path"
 
+# Check if bundle directory already exists
+if [ -d "../bundle/" ]
+then
+    echo "Directory Pomomo/website/squarespace/code-injection/bundle/ exists."
+    echo "Please delete the directory and execute build.sh again"
+    exit
+fi
+
 # Create build output directory
 mkdir ../bundle/
 
