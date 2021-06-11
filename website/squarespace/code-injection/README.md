@@ -19,5 +19,5 @@ $ sh website/squarespace/code-injection/bin/build.sh
 ```
 2. Copy the contents of `Pomomo/website/squarespace/code-injection/bundle/bundle.html`.
 3. Paste into SquareSpace's code injection Header field (in advanced settings).
-4. Verify that the changes work.
+4. Save and verify that the changes work.
 5. Delete the directory `Pomomo/website/squarespace/bundle/` when everything looks good.
